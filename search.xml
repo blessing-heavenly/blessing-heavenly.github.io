@@ -4,26 +4,27 @@
   
     
     <entry>
-      <title>article_name</title>
-      <link href="/2026/06/23/article-name/"/>
-      <url>/2026/06/23/article-name/</url>
+      <title>zip和rar的伪加密</title>
+      <link href="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/"/>
+      <url>/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/</url>
       
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2026/06/23/hello-world/"/>
-      <url>/2026/06/23/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+        <content type="html"><![CDATA[<h1 id="压缩包伪加密"><a href="#压缩包伪加密" class="headerlink" title="压缩包伪加密"></a>压缩包伪加密</h1><h2 id="Zip-伪加密"><a href="#Zip-伪加密" class="headerlink" title="Zip 伪加密"></a>Zip 伪加密</h2><p>压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记<br>压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记  </p><p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/zip.png" alt="参考图片"></p><h2 id="Rar-伪加密"><a href="#Rar-伪加密" class="headerlink" title="Rar 伪加密"></a>Rar 伪加密</h2><p>一般用 win 打开时会显示文件头已损坏<br>RAR 的第 24 个字节。该字节尾数为 4 表示加密，0 表示无加密<br>或 010 Editor 显示的文件结构中的 <code>ubyte PASSWORD_ENCRYPTED</code> 字段，修改其字段为 1 即可实现 RAR 伪加密。  </p><p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar1.png" alt="参考图片"></p><p>或者修改第 11 个字节，尾数为 4 表示加密，0 表示无加密<br>也就是 010 Editor 显示的文件结构中的 <code>ubyte BLOCK_HEADERS_ENCRYPTED</code> 字段的值。修改为 1 即可造成 RAR 伪加密。  </p><p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar2.png" alt="参考图片"></p>]]></content>
       
       
+      <categories>
+          
+          <category> CTF </category>
+          
+          <category> Misc </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> misc须知 </tag>
+            
+        </tags>
       
     </entry>
     
