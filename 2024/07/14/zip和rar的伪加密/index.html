@@ -390,11 +390,11 @@
               <div class="markdown-body">
                 
                 <h1 id="压缩包伪加密"><a href="#压缩包伪加密" class="headerlink" title="压缩包伪加密"></a>压缩包伪加密</h1><h2 id="Zip-伪加密"><a href="#Zip-伪加密" class="headerlink" title="Zip 伪加密"></a>Zip 伪加密</h2><p>压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记<br>压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记  </p>
-<p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/zip.png" srcset="/img/loading.gif" lazyload alt="参考图片"></p>
+<p><picture data-optimized="true"><source type="image/webp" srcset="opt-images/zip-800w.webp 800w, opt-images/zip-1280w.webp 1280w, opt-images/zip-1920w.webp 1920w" sizes="(max-width: 1279px) 800px, (min-width: 1280px) and (max-width: 1919px) 1280px, (min-width: 1920px) 1920px, 1920px"><img src="opt-images/zip-optimized.png" srcset="/img/loading.gif" lazyload alt="参考图片" width="1190" height="539" loading="lazy"></picture></p>
 <h2 id="Rar-伪加密"><a href="#Rar-伪加密" class="headerlink" title="Rar 伪加密"></a>Rar 伪加密</h2><p>一般用 win 打开时会显示文件头已损坏<br>RAR 的第 24 个字节。该字节尾数为 4 表示加密，0 表示无加密<br>或 010 Editor 显示的文件结构中的 <code>ubyte PASSWORD_ENCRYPTED</code> 字段，修改其字段为 1 即可实现 RAR 伪加密。  </p>
-<p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar1.png" srcset="/img/loading.gif" lazyload alt="参考图片"></p>
+<p><picture data-optimized="true"><source type="image/webp" srcset="opt-images/rar1-800w.webp 800w, opt-images/rar1-1280w.webp 1280w, opt-images/rar1-1920w.webp 1920w" sizes="(max-width: 1279px) 800px, (min-width: 1280px) and (max-width: 1919px) 1280px, (min-width: 1920px) 1920px, 1920px"><img src="opt-images/rar1-optimized.png" srcset="/img/loading.gif" lazyload alt="参考图片" width="905" height="694" loading="lazy"></picture></p>
 <p>或者修改第 11 个字节，尾数为 4 表示加密，0 表示无加密<br>也就是 010 Editor 显示的文件结构中的 <code>ubyte BLOCK_HEADERS_ENCRYPTED</code> 字段的值。修改为 1 即可造成 RAR 伪加密。  </p>
-<p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar2.png" srcset="/img/loading.gif" lazyload alt="参考图片"></p>
+<p><picture data-optimized="true"><source type="image/webp" srcset="opt-images/rar2-800w.webp 800w, opt-images/rar2-1280w.webp 1280w, opt-images/rar2-1920w.webp 1920w" sizes="(max-width: 1279px) 800px, (min-width: 1280px) and (max-width: 1919px) 1280px, (min-width: 1920px) 1920px, 1920px"><img src="opt-images/rar2-optimized.png" srcset="/img/loading.gif" lazyload alt="参考图片" width="813" height="656" loading="lazy"></picture></p>
 
                 
               </div>
