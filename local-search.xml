@@ -5,22 +5,22 @@
   
   <entry>
     <title>BASE家族编码总结</title>
-    <link href="/2025/07/26/%E7%BC%96%E7%A0%81/"/>
-    <url>/2025/07/26/%E7%BC%96%E7%A0%81/</url>
+    <link href="/2026/08/24/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/"/>
+    <url>/2026/08/24/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/</url>
     
-    <content type="html"><![CDATA[<h1 id="BASE家族"><a href="#BASE家族" class="headerlink" title="BASE家族"></a>BASE家族</h1><h2 id="BASE16"><a href="#BASE16" class="headerlink" title="BASE16"></a>BASE16</h2><p>0<del>9+A</del>F。</p><h2 id="BASE32"><a href="#BASE32" class="headerlink" title="BASE32"></a>BASE32</h2><p>A<del>Z+2</del>7，占位符“&#x3D;”。</p><h2 id="BASE36"><a href="#BASE36" class="headerlink" title="BASE36"></a>BASE36</h2><p>0<del>9+A</del>Z 或 0<del>9+a</del>z。</p><h2 id="BASE58"><a href="#BASE58" class="headerlink" title="BASE58"></a>BASE58</h2><p>1<del>9+A</del>Z（除 I、O）+a~z(除 l)。</p><h2 id="BASE62"><a href="#BASE62" class="headerlink" title="BASE62"></a>BASE62</h2><p>0<del>9+A</del>Z+a~z。</p><h2 id="BASE64"><a href="#BASE64" class="headerlink" title="BASE64"></a>BASE64</h2><h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><p>0<del>9+A</del>Z+a~z +  + &#x2F; &#x3D;。</p><h3 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h3><p>它是一种基于 64 个可打印字符来表示二进制数据的表示方法。由于 2^6&#x3D;64，所以每 6 个比特为一个单元，对应某个可打印字符。3 个字节有 24 个比特，对应于 4 个 Base64 单元，即 3 个字节可由 4 个可打印字符来表示。</p><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>用以解决各系统以及传输协议中二进制不兼容的问题。</p><h3 id="用于"><a href="#用于" class="headerlink" title="用于"></a>用于</h3><p>处理文本数据的场合，表示、传输、存储一些二进制数据，包括MIME的电子邮件及XML的一些复杂数据。</p><h3 id="编码规则"><a href="#编码规则" class="headerlink" title="编码规则"></a>编码规则</h3><p>假如要编码一个非二进制字符，Base64的编码规则是：先把这个字符处理成二进制，然后每连续6个bit计算其十进制，得出十进制的值之后，再根据Base64对照表找到对应的字符。</p><h3 id="编码方式"><a href="#编码方式" class="headerlink" title="编码方式"></a>编码方式</h3><ol><li>将原始数据每三个字节作为一组，每个字节是8个bit，一共是 24 个 bit</li><li>将 24 个 bit 分为四组，每组 6 个 bit</li><li>有不足六位的情况，加补零凑够六位，同时凑出来的位数是 8 的倍数 *，不然就加特殊的六位符号 “ &#x3D; ” *。<br>此时，原始数据的3个字节变成4个字节，增大了将近30%<br>即 bit 不为 6 或 8 的倍数补 0 *，原始数据不为 3 的倍数补 “ &#x3D; ” 。</li><li>根据Base64码表得到扩展后每个字节的对应符号</li></ol><h4 id="例：原文-man"><a href="#例：原文-man" class="headerlink" title="例：原文 man"></a>例：原文 man</h4><p>![base64-man-example.png]</p><h4 id="字节的位总数不为-6-的倍数以及原文不为-3-的倍数："><a href="#字节的位总数不为-6-的倍数以及原文不为-3-的倍数：" class="headerlink" title="字节的位总数不为 6 的倍数以及原文不为 3 的倍数："></a>字节的位总数不为 6 的倍数以及原文不为 3 的倍数：</h4><p>![base64-padding-example.png]</p><ul><li>要凑成8的倍数，是因为base64主要用于加密后的数据传送，而在传送机制中都认为传送的最小单位是按照字节算的，所以不能出现不是位总数不是8的倍数的情况，</li><li>“ &#x3D; “ 的意义：base64 编码过程以 3 个为一组，当原文不足三个时即在 base64 中补充 “ &#x3D; “</li><li>只用凑齐满足条件的最小的 6 和 8 的倍数即可，不用补 0 到凑够 24 个 bit 。</li></ul><h3 id="base64-码表"><a href="#base64-码表" class="headerlink" title="base64 码表"></a>base64 码表</h3><p>![base64-code-table.png]</p><h3 id="base64-编码（Python）"><a href="#base64-编码（Python）" class="headerlink" title="base64 编码（Python）"></a>base64 编码（Python）</h3><p>python中的 base64 模块：</p><ul><li><code>base64.b64encode()</code> 将 bytes 类型数据进行base64编码，返回编码后的bytes类型</li><li><code>encode(encoding)</code> 将字符串编码为指定编码（如 UTF-8、ASCII 等）的字节序列。它接受一个编码参数，指定要使用的字符编码方式，然后返回对应编码的字节序列（bytes 对象）</li><li><code>decode(encoding)</code> 将字节序列解码为字符串，根据指定的编码方式将字节序列转换为字符串形式。它接受一个编码参数，指定要使用的字符编码方式，然后返回解码后的字符串。</li><li><code>base64.b64decode()</code> 将base64编码的 bytes 类型进行解码，返回解码后的 bytes 类型</li><li><code>encodestring</code> 和 <code>decodestring</code>，专门用来编码和解码字符串</li><li><code>urlsafe_b64encode</code> 和 <code>urlsafe_b64decode</code>，专门对url进行Base64编解码，实际上也是调用的前一组函数</li></ul><blockquote><p>注：</p><ul><li>使用库加密时，需要同时用到 encode 和 decode 函数，先使用 encode 将原始数据转换成指定编码的字节，decode 则是将 encode 转换后的字节按照指定编码再转换成加密字符串。</li><li>但使用库解密时，只需用到 decode 函数，此时 decode 函数用于解密，将 base64.b64decode 函数解码后的字节序列按指定编码转换成解密字符。</li></ul></blockquote><h4 id="base64-通过库加密解密代码"><a href="#base64-通过库加密解密代码" class="headerlink" title="base64 通过库加密解密代码"></a>base64 通过库加密解密代码</h4><p>![base64-lib-code.png]</p><h4 id="base64-不使用库加解密代码"><a href="#base64-不使用库加解密代码" class="headerlink" title="base64 不使用库加解密代码"></a>base64 不使用库加解密代码</h4><p>![base64-no-lib-code1.png]<br>![base64-no-lib-code2.png]<br>![base64-no-lib-code3.png]</p><hr><h2 id="BASE85"><a href="#BASE85" class="headerlink" title="BASE85"></a>BASE85</h2><p>将四字节二进制数组成 32 位的数，然后转换为 85 进制，最后每一位加上32转为字符，无显著特征。</p><h2 id="BASE91"><a href="#BASE91" class="headerlink" title="BASE91"></a>BASE91</h2><p>0<del>9+A</del>Z+a~z+  ! # $ % &amp; ( ) * + , . &#x2F; : ; &lt; &#x3D; &gt; ? @ [ ] ^ _ &#96; { | } ~  </p><h2 id="BASE92"><a href="#BASE92" class="headerlink" title="BASE92"></a>BASE92</h2><p>相较 BASE91 多“~”。</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="BASE家族"><a href="#BASE家族" class="headerlink" title="BASE家族"></a>BASE家族</h1><p><strong>BASE16</strong>：0<del>9+A</del>F。</p><p><strong>BASE32</strong>：A<del>Z+2</del>7，占位符“&#x3D;”。</p><p><strong>BASE36</strong>：0<del>9+A</del>Z 或 0<del>9+a</del>z。</p><p><strong>BASE58</strong>：1<del>9+A</del>Z（除 I、O）+a~z(除 l)。</p><p><strong>BASE62</strong>：0<del>9+A</del>Z+a~z。</p><p><strong>BASE64</strong>：</p><p>特征：0<del>9+A</del>Z+a~z +  + &#x2F; &#x3D;。</p><p>本质：它是一种基于 64 个可打印字符来表示二进制数据的表示方法。由于 2^6&#x3D;64，所以每 6 个比特为一个单元，对应某个可打印字符。3 个字节有 24 个比特，对应于 4 个 Base64 单元，即 3 个字节可由 4 个可打印字符来表示。</p><p>目的：用以解决各系统以及传输协议中二进制不兼容的问题。</p><p>用于：处理文本数据的场合，表示、传输、存储一些二进制数据，包括MIME的电子邮件及XML的一些复杂数据。</p><p>编码规则：<br>假如要编码一个非二进制字符，Base64的编码规则是：先把这个字符处理成二进制，然后每连续6个bit计算其十进制，得出十进制的值之后，再根据Base64对照表找到对应的字符。</p><p>编码方式：</p><ol><li>将原始数据每三个字节作为一组，每个字节是8个bit，一共是 24 个 bit</li><li>将 24 个 bit 分为四组，每组 6 个 bit</li><li>有不足六位的情况，加补零凑够六位，同时凑出来的位数是 8 的倍数，不然就加特殊的六位符号 “ &#x3D; ” 。<br>此时，原始数据的3个字节变成4个字节，增大了将近30%<br>即 bit 不为 6 或 8 的倍数补 0，原始数据不为 3 的倍数补 “ &#x3D; ”。</li><li>根据Base64码表得到扩展后每个字节的对应符号</li></ol><p>例：原文 man<br>![base64-man-example.png]</p><p>字节的位总数不为 6 的倍数以及原文不为 3 的倍数：<br>![base64-padding-example.png]</p><ul><li>要凑成8的倍数，是因为base64主要用于加密后的数据传送，而在传送机制中都认为传送的最小单位是按照字节算的，所以不能出现不是位总数不是8的倍数的情况，</li><li>“ &#x3D; “ 的意义：base64 编码过程以 3 个为一组，当原文不足三个时即在 base64 中补充 “ &#x3D; “</li><li>只用凑齐满足条件的最小的 6 和 8 的倍数即可，不用补 0 到凑够 24 个 bit 。</li></ul><p>base64 码表：<br>![base64-code-table.png]</p><p>base64 编码（Python）：<br>python中的 base64 模块：</p><ul><li><code>base64.b64encode()</code> 将 bytes 类型数据进行base64编码，返回编码后的bytes类型</li><li><code>encode(encoding)</code> 将字符串编码为指定编码（如 UTF-8、ASCII 等）的字节序列。它接受一个编码参数，指定要使用的字符编码方式，然后返回对应编码的字节序列（bytes 对象）</li><li><code>decode(encoding)</code> 将字节序列解码为字符串，根据指定的编码方式将字节序列转换为字符串形式。它接受一个编码参数，指定要使用的字符编码方式，然后返回解码后的字符串。</li><li><code>base64.b64decode()</code> 将base64编码的 bytes 类型进行解码，返回解码后的 bytes 类型</li><li><code>encodestring</code> 和 <code>decodestring</code>，专门用来编码和解码字符串</li><li><code>urlsafe_b64encode</code> 和 <code>urlsafe_b64decode</code>，专门对url进行Base64编解码，实际上也是调用的前一组函数</li></ul><p>注：</p><ul><li>使用库加密时，需要同时用到 encode 和 decode 函数，先使用 encode 将原始数据转换成指定编码的字节，decode 则是将 encode 转换后的字节按照指定编码再转换成加密字符串。</li><li>但使用库解密时，只需用到 decode 函数，此时 decode 函数用于解密，将 base64.b64decode 函数解码后的字节序列按指定编码转换成解密字符。</li></ul><p>base64 通过库加密解密代码：<br><img src="/2026/08/24/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/base64-lib-code.png" alt="库加密代码"></p><p>base64 不使用库加解密代码：<br>![base64-no-lib-code1.png]<br>![base64-no-lib-code2.png]<br>![base64-no-lib-code3.png]</p><p><strong>BASE85</strong>：将四字节二进制数组成 32 位的数，然后转换为 85 进制，最后每一位加上32转为字符，无显著特征。</p><p><strong>BASE91</strong>：0<del>9+A</del>Z+a~z+  ! # $ % &amp; ( ) * + , . &#x2F; : ; &lt; &#x3D; &gt; ? @ [ ] ^ _ &#96; { | } ~  </p><p><strong>BASE92</strong>：相较 BASE91 多“~”。</p>]]></content>
     
     
     <categories>
       
-      <category>CTF笔记</category>
+      <category>CTF</category>
       
     </categories>
     
     
     <tags>
       
-      <tag>CTF笔记</tag>
+      <tag>笔记</tag>
       
     </tags>
     
@@ -47,9 +47,9 @@
     
     <tags>
       
-      <tag>CTF</tag>
-      
       <tag>misc须知</tag>
+      
+      <tag>CTF</tag>
       
     </tags>
     
