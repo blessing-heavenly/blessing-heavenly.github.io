@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/10.png">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/11.png">
 <meta property="article:published_time" content="2026-07-11T10:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-11T10:44:39.967Z">
+<meta property="article:modified_time" content="2026-09-11T10:51:24.152Z">
 <meta property="article:author" content="Seth">
 <meta property="article:tag" content="Misc">
 <meta name="twitter:card" content="summary_large_image">
@@ -338,7 +338,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.2k 字
+          4.1k 字
         
       </span>
     
@@ -411,7 +411,7 @@
 </ol>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39190897/article/details/86772765">https://blog.csdn.net/weixin_39190897/article/details/86772765</a></p>
 <hr>
-<h2 id="中国菜刀"><a href="#中国菜刀" class="headerlink" title="中国菜刀"></a>中国菜刀</h2><p>（使用量最大，适用范围最广的WebShell客户端）</p>
+<h2 id="中国菜刀"><a href="#中国菜刀" class="headerlink" title="中国菜刀"></a>中国菜刀</h2><p>使用量最大，适用范围最广的WebShell客户端。</p>
 <h3 id="流量特征"><a href="#流量特征" class="headerlink" title="流量特征"></a>流量特征</h3><ol>
 <li>请求包中：ua 头为百度，火狐</li>
 <li>请求体中存在 <code>eval *</code>，<code>assert</code>，<code>base64_decode *</code> 等特征字符</li>
@@ -436,8 +436,9 @@
 <li>ASP.NET:  <code>&lt;%@ Page Language= &quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;caidao&quot;],&quot;unsafe&quot;);%&gt;</code></li>
 </ul>
 <hr>
-<h2 id="蚁剑"><a href="#蚁剑" class="headerlink" title="蚁剑"></a>蚁剑</h2><p>（一种常用的WebShell客户端）</p>
-<h3 id="流量特征（每一句话中普遍存在）"><a href="#流量特征（每一句话中普遍存在）" class="headerlink" title="流量特征（每一句话中普遍存在）"></a>流量特征（每一句话中普遍存在）</h3><p><strong>请求体</strong></p>
+<h2 id="蚁剑"><a href="#蚁剑" class="headerlink" title="蚁剑"></a>蚁剑</h2><p>一种常用的WebShell客户端。</p>
+<h3 id="流量特征-1"><a href="#流量特征-1" class="headerlink" title="流量特征"></a>流量特征</h3><p>每一句话中普遍存在。</p>
+<p><strong>请求体</strong></p>
 <p>开头（进行URL解码后）：@ini_set(“display_errors”, “0”);@set_time_limit(0)</p>
 <p><strong>响应体</strong></p>
 <ul>
@@ -461,7 +462,7 @@
 </ul>
 <p><img src="/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/4.png" srcset="/img/loading.gif" lazyload alt="蚁剑payload示例"></p>
 <hr>
-<h2 id="冰蝎"><a href="#冰蝎" class="headerlink" title="冰蝎"></a>冰蝎</h2><p>（流量加密客户端）</p>
+<h2 id="冰蝎"><a href="#冰蝎" class="headerlink" title="冰蝎"></a>冰蝎</h2><p>流量加密客户端。</p>
 <h3 id="总特征"><a href="#总特征" class="headerlink" title="总特征"></a>总特征</h3><ul>
 <li>一个 ip 的请求头中的 user-agent 在频繁变换，就可能是冰蝎。</li>
 <li>数据包总是伴随着大量的 <code>content-type：application....</code> , 无论 GET 还是POST，请求的http中，content-type 为 <code>application/octet-stream</code>；</li>
@@ -494,7 +495,7 @@
 <li>有固定的请求头和响应头<br>请求字节头：<br><code>dFAXQV1LORcHRQtLRlwMAhwFTAg/M</code> ，<br>响应字节头：<code>TxcWR1NNExZAD0ZaAWMIPAZjH1BFBFtHThcJSlUXWEd</code></li>
 <li>默认时，冰蝎 webshell 都有 <code>&quot; e45e329feb5d925b &quot;</code> 一串密钥，与冰蝎3.0相同。</li>
 </ol>
-<h3 id="payload特征-1"><a href="#payload特征-1" class="headerlink" title="payload特征"></a>payload特征</h3><ul>
+<h4 id="payload特征-1"><a href="#payload特征-1" class="headerlink" title="payload特征"></a>payload特征</h4><ul>
 <li>php 在代码中同样会存在 <code>eval</code> 或 <code>assert</code> 等字符特征</li>
 </ul>
 <p><img src="/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/8.png" srcset="/img/loading.gif" lazyload alt="冰蝎4.0 payload示例1"></p>
@@ -507,7 +508,7 @@
 </ul>
 <p><img src="/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/10.png" srcset="/img/loading.gif" lazyload alt="冰蝎4.0 payload示例3"></p>
 <hr>
-<h2 id="哥斯拉"><a href="#哥斯拉" class="headerlink" title="哥斯拉"></a>哥斯拉</h2><h3 id="流量特征-1"><a href="#流量特征-1" class="headerlink" title="流量特征"></a>流量特征</h3><ol>
+<h2 id="哥斯拉"><a href="#哥斯拉" class="headerlink" title="哥斯拉"></a>哥斯拉</h2><h3 id="流量特征-2"><a href="#流量特征-2" class="headerlink" title="流量特征"></a>流量特征</h3><ol>
 <li>User-Agent字段（弱特征）：<br>默认的情况会暴露使用的 jdk 信息。<br>（但哥斯拉支持自定义HTTP头部，这个默认特征是容易去除）</li>
 <li>Accept字段（弱特征）：<br><code>Accept:text/html, image/gif, image/jpeg, *; q=.2, /; q=.2</code>。<br>（这个也是默认情况且可修改，只能作为辅助检测的特征。）</li>
 <li>所有响应：<br><code>Cache-Control: no-store, no-cache, must-revalidate,</code></li>
@@ -519,8 +520,7 @@
 <li>jsp 会出现 <code>xc</code> , <code>pass</code> 字符和 Java 反射（ <code>ClassLoader</code>，<code>getClass().getClassLoader()</code> ），base64 加解码等特征</li>
 <li>php，asp则为普通的一句话木马</li>
 </ul>
-<hr>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_53577336/article/details/125048353">https://blog.csdn.net/qq_53577336/article/details/125048353</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-andrea/p/17473499.html">https://www.cnblogs.com/-andrea/p/17473499.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67347487">https://zhuanlan.zhihu.com/p/67347487</a></li>
