@@ -19,16 +19,16 @@
   <meta name="author" content="Seth">
   <meta name="keywords" content="">
   
-    <meta name="description" content="SSRF（服务器端请求伪造）一、定义服务器端请求伪造（Server-Side Request Forgery），是一种由攻击者构造形成、由服务端发起请求的安全漏洞。 一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。因为它是由服务端发起的，所以它能够请求到与它相连、而与外网隔离的内部系统。 二、原理由于服务端提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤与限制。  SSRF">
+    <meta name="description" content="SSRF一、定义服务器端请求伪造（Server-Side Request Forgery），是一种由攻击者构造形成、由服务端发起请求的安全漏洞。 一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。因为它是由服务端发起的，所以它能够请求到与它相连、而与外网隔离的内部系统。 二、原理由于服务端提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤与限制。  SSRF 是利用存在缺陷的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SSRF（服务器端请求伪造）知识总结">
+<meta property="og:title" content="SSRF漏洞">
 <meta property="og:url" content="https://blessing-heavenly.github.io/2026/09/11/SSRF%E6%BC%8F%E6%B4%9E/index.html">
 <meta property="og:site_name" content="学习经历分享">
-<meta property="og:description" content="SSRF（服务器端请求伪造）一、定义服务器端请求伪造（Server-Side Request Forgery），是一种由攻击者构造形成、由服务端发起请求的安全漏洞。 一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。因为它是由服务端发起的，所以它能够请求到与它相连、而与外网隔离的内部系统。 二、原理由于服务端提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤与限制。  SSRF">
+<meta property="og:description" content="SSRF一、定义服务器端请求伪造（Server-Side Request Forgery），是一种由攻击者构造形成、由服务端发起请求的安全漏洞。 一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。因为它是由服务端发起的，所以它能够请求到与它相连、而与外网隔离的内部系统。 二、原理由于服务端提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤与限制。  SSRF 是利用存在缺陷的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/SSRF%E6%BC%8F%E6%B4%9E/1.png">
 <meta property="article:published_time" content="2026-09-11T10:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-11T12:22:57.669Z">
+<meta property="article:modified_time" content="2026-09-11T12:37:07.729Z">
 <meta property="article:author" content="Seth">
 <meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary_large_image">
@@ -36,7 +36,7 @@
   
   
   
-  <title>SSRF（服务器端请求伪造）知识总结 - 学习经历分享</title>
+  <title>SSRF漏洞 - 学习经历分享</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -305,7 +305,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="SSRF（服务器端请求伪造）知识总结"></span>
+            <span id="subtitle" data-typed-text="SSRF漏洞"></span>
           
         </div>
 
@@ -382,12 +382,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">SSRF（服务器端请求伪造）知识总结</h1>
+            <h1 id="seo-header">SSRF漏洞</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="SSRF（服务器端请求伪造）"><a href="#SSRF（服务器端请求伪造）" class="headerlink" title="SSRF（服务器端请求伪造）"></a>SSRF（服务器端请求伪造）</h1><h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p>服务器端请求伪造（Server-Side Request Forgery），是一种由攻击者构造形成、由服务端发起请求的安全漏洞。</p>
+                <h1 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h1><h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p>服务器端请求伪造（Server-Side Request Forgery），是一种由攻击者构造形成、由服务端发起请求的安全漏洞。</p>
 <p>一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。因为它是由服务端发起的，所以它能够请求到与它相连、而与外网隔离的内部系统。</p>
 <h2 id="二、原理"><a href="#二、原理" class="headerlink" title="二、原理"></a>二、原理</h2><p>由于服务端提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤与限制。</p>
 <p><img src="/2026/09/11/SSRF%E6%BC%8F%E6%B4%9E/1.png" srcset="/img/loading.gif" lazyload alt="SSRF原理示意图"></p>
@@ -683,7 +683,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>SSRF（服务器端请求伪造）知识总结</div>
+      <div>SSRF漏洞</div>
       <div>https://blessing-heavenly.github.io/2026/09/11/SSRF漏洞/</div>
     </div>
     <div class="license-meta">
@@ -728,9 +728,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/09/11/SQL%E6%B3%A8%E5%85%A5/" title="SQL注入知识总结">
+                      <a href="/2026/09/11/SQL%E6%B3%A8%E5%85%A5/" title="SQL注入总结">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SQL注入知识总结</span>
+                        <span class="hidden-mobile">SQL注入总结</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -738,8 +738,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/09/11/Top10%20%E6%BC%8F%E6%B4%9E/" title="OWASP Top 10 漏洞总结（2021版）">
-                        <span class="hidden-mobile">OWASP Top 10 漏洞总结（2021版）</span>
+                      <a href="/2026/09/11/Top10%20%E6%BC%8F%E6%B4%9E/" title="OWASP Top 10 漏洞">
+                        <span class="hidden-mobile">OWASP Top 10 漏洞</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
