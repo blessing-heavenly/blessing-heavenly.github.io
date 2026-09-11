@@ -1,0 +1,1169 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Seth">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="OWASP Top 10 漏洞总结（2021版） 本文基于 OWASP Top 10 2021 版本整理。2021版相比2017版产生了三个新类别，四个类别的命名和范围发生了变化，并进行了部分整合。  版本变化说明   2017版 2021版    A01-注入 A03-注入（排名下滑，XSS被纳入此类别）   A02-失效的身份认证 A07-身份识别和身份验证错误（排名下滑）   A03-敏感信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OWASP Top 10 漏洞总结（2021版）">
+<meta property="og:url" content="https://blessing-heavenly.github.io/2026/09/11/Top10%20%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="学习经历分享">
+<meta property="og:description" content="OWASP Top 10 漏洞总结（2021版） 本文基于 OWASP Top 10 2021 版本整理。2021版相比2017版产生了三个新类别，四个类别的命名和范围发生了变化，并进行了部分整合。  版本变化说明   2017版 2021版    A01-注入 A03-注入（排名下滑，XSS被纳入此类别）   A02-失效的身份认证 A07-身份识别和身份验证错误（排名下滑）   A03-敏感信">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-11T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-11T12:20:05.342Z">
+<meta property="article:author" content="Seth">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>OWASP Top 10 漏洞总结（2021版） - 学习经历分享</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blessing-heavenly.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Seth</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner-post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OWASP Top 10 漏洞总结（2021版）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-09-11 18:00" pubdate>
+          2026年9月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">OWASP Top 10 漏洞总结（2021版）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="OWASP-Top-10-漏洞总结（2021版）"><a href="#OWASP-Top-10-漏洞总结（2021版）" class="headerlink" title="OWASP Top 10 漏洞总结（2021版）"></a>OWASP Top 10 漏洞总结（2021版）</h1><blockquote>
+<p>本文基于 OWASP Top 10 2021 版本整理。2021版相比2017版产生了三个新类别，四个类别的命名和范围发生了变化，并进行了部分整合。</p>
+</blockquote>
+<h2 id="版本变化说明"><a href="#版本变化说明" class="headerlink" title="版本变化说明"></a>版本变化说明</h2><table>
+<thead>
+<tr>
+<th>2017版</th>
+<th>2021版</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A01-注入</td>
+<td>A03-注入（排名下滑，XSS被纳入此类别）</td>
+</tr>
+<tr>
+<td>A02-失效的身份认证</td>
+<td>A07-身份识别和身份验证错误（排名下滑）</td>
+</tr>
+<tr>
+<td>A03-敏感信息泄漏</td>
+<td>A02-加密机制失效（更名，关注根本原因）</td>
+</tr>
+<tr>
+<td>A04-XML外部实体（XXE）</td>
+<td>被合并至 A05-安全配置错误</td>
+</tr>
+<tr>
+<td>A05-失效的访问控制</td>
+<td>A01-失效的访问控制（上升至第一）</td>
+</tr>
+<tr>
+<td>A06-安全配置错误</td>
+<td>A05-安全配置错误（排名上升）</td>
+</tr>
+<tr>
+<td>A07-跨站脚本（XSS）</td>
+<td>被纳入 A03-注入</td>
+</tr>
+<tr>
+<td>A08-不安全的反序列化</td>
+<td>被归入 A08-软件和数据完整性故障</td>
+</tr>
+<tr>
+<td>A09-使用含有已知漏洞的组件</td>
+<td>A06-自带缺陷和过时的组件（更名）</td>
+</tr>
+<tr>
+<td>A10-不足的日志记录和监控</td>
+<td>A09-安全日志和监控故障（更名）</td>
+</tr>
+<tr>
+<td>—</td>
+<td>A04-不安全设计（新增）</td>
+</tr>
+<tr>
+<td>—</td>
+<td>A08-软件和数据完整性故障（新增）</td>
+</tr>
+<tr>
+<td>—</td>
+<td>A10-服务端请求伪造（新增）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="一、A01-2021-失效的访问控制（Broken-Access-Control）"><a href="#一、A01-2021-失效的访问控制（Broken-Access-Control）" class="headerlink" title="一、A01:2021 - 失效的访问控制（Broken Access Control）"></a>一、A01:2021 - 失效的访问控制（Broken Access Control）</h2><h3 id="1-攻击方式"><a href="#1-攻击方式" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>用户能够访问其权限之外的资源或功能，如水平越权查看他人订单、垂直越权普通用户访问管理后台。</p>
+<h3 id="2-漏洞原因"><a href="#2-漏洞原因" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><ul>
+<li>未对用户身份和权限进行严格校验</li>
+<li>直接通过参数传递资源标识，未做归属验证</li>
+<li>默认允许而非默认拒绝的访问策略</li>
+<li>JWT 等令牌中允许使用 <code>none</code> 算法</li>
+</ul>
+<h3 id="3-漏洞防护"><a href="#3-漏洞防护" class="headerlink" title="3. 漏洞防护"></a>3. 漏洞防护</h3><ul>
+<li><strong>默认拒绝</strong>所有访问，除非明确允许</li>
+<li>实施<strong>最小权限原则</strong></li>
+<li>记录访问控制失败的日志</li>
+<li>禁用 JWT 等令牌中的 <code>none</code> 算法</li>
+<li>CORS 配置严格化</li>
+<li>对参数进行白名单过滤</li>
+<li>限制下载文件的类型</li>
+</ul>
+<hr>
+<h2 id="二、A02-2021-加密机制失效（Cryptographic-Failures）"><a href="#二、A02-2021-加密机制失效（Cryptographic-Failures）" class="headerlink" title="二、A02:2021 - 加密机制失效（Cryptographic Failures）"></a>二、A02:2021 - 加密机制失效（Cryptographic Failures）</h2><h3 id="1-攻击方式-1"><a href="#1-攻击方式-1" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>攻击者利用加密缺失或弱加密算法，获取敏感数据（密码、信用卡、个人信息等）。</p>
+<h3 id="2-漏洞原因-1"><a href="#2-漏洞原因-1" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><ul>
+<li>HTTP 明文传输（未强制 HTTPS）</li>
+<li>密码使用 MD5&#x2F;SHA1 等弱哈希存储（应使用 bcrypt&#x2F;Argon2）</li>
+<li>数据库敏感字段未加密</li>
+<li>SSL&#x2F;TLS 证书过期或使用自签名证书</li>
+<li>使用过时的加密协议（如 FTP、telnet）</li>
+</ul>
+<h3 id="3-漏洞防护-1"><a href="#3-漏洞防护-1" class="headerlink" title="3. 漏洞防护"></a>3. 漏洞防护</h3><ul>
+<li><strong>强制 HTTPS</strong>（HSTS + 301 重定向）</li>
+<li>使用 <strong>TLS 1.2+</strong>（禁用 SSLv3&#x2F;TLS 1.0）</li>
+<li>密码使用 <strong>bcrypt 加盐哈希</strong>存储</li>
+<li>敏感字段使用 <strong>AES-256 加密</strong>存储</li>
+<li>确保所有敏感数据在<strong>静态时加密</strong></li>
+<li>使用最新且标准的强算法、协议和密钥</li>
+<li>对包含敏感数据的响应<strong>禁用缓存</strong></li>
+<li>不使用 FTP 等遗留协议</li>
+</ul>
+<hr>
+<h2 id="三、A03-2021-注入（Injection）"><a href="#三、A03-2021-注入（Injection）" class="headerlink" title="三、A03:2021 - 注入（Injection）"></a>三、A03:2021 - 注入（Injection）</h2><blockquote>
+<p>注：2021版中，<strong>跨站脚本（XSS）</strong> 已被纳入此类别。详细内容见 <a href="!--swig%EF%BF%BC8--">XSS 漏洞</a>。</p>
+</blockquote>
+<h3 id="1-攻击方式-2"><a href="#1-攻击方式-2" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>利用应用程序弱点，通过恶意字符将恶意代码写入数据库，获取敏感数据或进一步在服务器执行命令。</p>
+<h3 id="2-漏洞原因-2"><a href="#2-漏洞原因-2" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><ul>
+<li>未审计的数据输入框</li>
+<li>使用网址直接传递变量</li>
+<li>未过滤的特殊字符</li>
+<li>SQL 错误回显</li>
+</ul>
+<h3 id="3-注入类型"><a href="#3-注入类型" class="headerlink" title="3. 注入类型"></a>3. 注入类型</h3><h4 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h4><p>定义：当输入的参数为整型时，如果存在注入漏洞，可以认为是数字型注入。</p>
+<p>测试步骤：</p>
+<ol>
+<li><p>加单引号：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">URL：xxx.xxx.xxx/xxx.php?<span class="hljs-attribute">id</span>=3&#x27;<br>SQL：select * <span class="hljs-keyword">from</span> table where <span class="hljs-attribute">id</span>=3&#x27;<br></code></pre></td></tr></table></figure>
+<p>输入后 SQL 语句出错，程序无法正常从数据库中查询出数据，就会抛出异常。</p>
+</li>
+<li><p>加 <code>and 1=1</code>：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">URL：xxx.xxx.xxx/xxx.php?<span class="hljs-attribute">id</span>=3 <span class="hljs-keyword">and</span> <span class="hljs-attribute">1</span>=1<br>SQL：select * <span class="hljs-keyword">from</span> table where <span class="hljs-attribute">id</span>=3 <span class="hljs-keyword">and</span> <span class="hljs-attribute">1</span>=1<br></code></pre></td></tr></table></figure>
+<p>此时 SQL 语句执行正常，与原始页面没有差异。</p>
+</li>
+<li><p>加 <code>and 1=2</code>：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">URL：xxx.xxx.xxx/xxx.php?<span class="hljs-attribute">id</span>=3 <span class="hljs-keyword">and</span> <span class="hljs-attribute">1</span>=2<br>SQL：select * <span class="hljs-keyword">from</span> table where <span class="hljs-attribute">id</span>=3 <span class="hljs-keyword">and</span> <span class="hljs-attribute">1</span>=2<br></code></pre></td></tr></table></figure>
+<p>SQL 语句可以正常执行，但无法查询出结果，所以返回数据与原始网页存在差异。</p>
+</li>
+</ol>
+<h4 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h4><p>定义：当输入的参数为字符串时，称为字符型。注意数字型不需要单引号来闭合，而字符型一般需要通过单引号来闭合。</p>
+<p>例：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">数字型语句：<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> id=<span class="hljs-number">3</span>;<br>字符型语句：<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> <span class="hljs-type">name</span>=<span class="hljs-string">&#x27;admin&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>因此，在构造 payload 时通过闭合单引号可以成功执行语句。</p>
+<p>测试步骤：</p>
+<ol>
+<li><p>增加单引号：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> <span class="hljs-type">name</span>=<span class="hljs-string">&#x27;admin&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>加单引号后原语句多出一个单引号，原语句无法执行，程序报错。</p>
+</li>
+<li><p>加 <code>and 1=1&#39;</code>：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> <span class="hljs-type">name</span>=<span class="hljs-string">&#x27;admin&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span>=<span class="hljs-number">1</span><span class="hljs-string">&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>此时无法进行注入，需要通过注释符号将其绕过。<br>构造语句：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> <span class="hljs-type">name</span>=<span class="hljs-string">&#x27;admin&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span>=<span class="hljs-number">1</span><span class="hljs-comment">--&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>可成功执行，返回结果正确。</p>
+</li>
+<li><p>加 <code>and 1=2--&#39;</code>：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> <span class="hljs-type">name</span>=<span class="hljs-string">&#x27;admin&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span>=<span class="hljs-number">2</span><span class="hljs-comment">--&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>程序报错，或返回结果异常。</p>
+</li>
+</ol>
+<h3 id="4-漏洞防护"><a href="#4-漏洞防护" class="headerlink" title="4. 漏洞防护"></a>4. 漏洞防护</h3><ul>
+<li>关闭 SQL 错误回显</li>
+<li>前端输入字符白名单验证（长度、类型等）</li>
+<li>对输入的特殊字符使用转义处理</li>
+<li>SQL 操作使用 <strong>PreparedStatement</strong>（参数化查询）</li>
+<li>SQL 服务运行于专门的账号，并且使用<strong>最小权限</strong></li>
+<li>限制 SQL 服务的远程访问</li>
+<li>代码审计</li>
+<li>使用成熟的 WAF</li>
+</ul>
+<hr>
+<h2 id="四、A04-2021-不安全设计（Insecure-Design）"><a href="#四、A04-2021-不安全设计（Insecure-Design）" class="headerlink" title="四、A04:2021 - 不安全设计（Insecure Design）"></a>四、A04:2021 - 不安全设计（Insecure Design）</h2><blockquote>
+<p>2021年新增类别，一出场就高居第四位。</p>
+</blockquote>
+<h3 id="1-攻击方式-3"><a href="#1-攻击方式-3" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>攻击者利用应用程序设计与架构中的缺陷进行攻击。这类缺陷<strong>无法通过完美的编码来修复</strong>，因为所需的安全控制从未被设计出来以抵御特定攻击。</p>
+<h3 id="2-漏洞原因-3"><a href="#2-漏洞原因-3" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><ul>
+<li>缺少威胁建模</li>
+<li>未使用安全设计模式</li>
+<li>缺乏参考架构</li>
+<li>未建立安全开发生命周期（SDLC）</li>
+</ul>
+<h3 id="3-漏洞防护-2"><a href="#3-漏洞防护-2" class="headerlink" title="3. 漏洞防护"></a>3. 漏洞防护</h3><ul>
+<li>建立与使用<strong>安全开发生命周期</strong>，协同应用安全专业人士评估与设计安全与隐私相关的控制措施</li>
+<li>建立与使用<strong>安全设计模式的函数库</strong>或已完成可使用的组件</li>
+<li>使用<strong>威胁建模</strong>在关键的认证、访问控制、业务逻辑和关键流程上</li>
+<li>编写单元测试和集成测试来验证所有关键流程是否抵抗威胁模型</li>
+<li>将<strong>限速</strong>和<strong>资源限制</strong>作为设计的一部分</li>
+</ul>
+<hr>
+<h2 id="五、A05-2021-安全配置错误（Security-Misconfiguration）"><a href="#五、A05-2021-安全配置错误（Security-Misconfiguration）" class="headerlink" title="五、A05:2021 - 安全配置错误（Security Misconfiguration）"></a>五、A05:2021 - 安全配置错误（Security Misconfiguration）</h2><h3 id="1-攻击方式-4"><a href="#1-攻击方式-4" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>攻击者利用错误配置攻击，获取敏感数据或者提升权限。</p>
+<h3 id="2-漏洞原因-4"><a href="#2-漏洞原因-4" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><p>开发或者维护人员设置了错误的配置。如 Python 开发中对于 Django 框架在生产环境启用了 Debug 模式。</p>
+<blockquote>
+<p>注：2021版中，<strong>XML外部实体（XXE）</strong> 已被合并至此类别。</p>
+</blockquote>
+<h3 id="3-漏洞防护-3"><a href="#3-漏洞防护-3" class="headerlink" title="3. 漏洞防护"></a>3. 漏洞防护</h3><ul>
+<li>检查文件扩展名</li>
+<li>重命名上传文件</li>
+<li>控制上传文件的权限，如关闭执行权限</li>
+<li>移除不使用的页面，如安装目录文件</li>
+<li>移除临时文件、备份文件</li>
+<li>不使用简单的命名规则，防止猜测</li>
+<li>定义白名单</li>
+<li>关闭 Debug 模式</li>
+<li>修改默认账户密码</li>
+<li>最小化安装组件</li>
+<li>禁用 Web 服务器目录列表</li>
+</ul>
+<hr>
+<h2 id="六、A06-2021-自带缺陷和过时的组件（Vulnerable-and-Outdated-Components）"><a href="#六、A06-2021-自带缺陷和过时的组件（Vulnerable-and-Outdated-Components）" class="headerlink" title="六、A06:2021 - 自带缺陷和过时的组件（Vulnerable and Outdated Components）"></a>六、A06:2021 - 自带缺陷和过时的组件（Vulnerable and Outdated Components）</h2><h3 id="1-攻击方式-5"><a href="#1-攻击方式-5" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>攻击者利用应用程序技术栈中的框架、库、工具等的已知漏洞进行攻击，获取高权限或者敏感数据。</p>
+<h3 id="2-漏洞原因-5"><a href="#2-漏洞原因-5" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><p>应用程序技术栈中使用的框架、库、工具爆出了漏洞，应用程序未能及时更新与修复。</p>
+<h3 id="3-漏洞防护-4"><a href="#3-漏洞防护-4" class="headerlink" title="3. 漏洞防护"></a>3. 漏洞防护</h3><ul>
+<li>及时更新、修复组件漏洞</li>
+<li>移除不再使用的依赖组件</li>
+<li>使用依赖扫描工具（如 <strong>OWASP Dependency-Check</strong>）</li>
+<li>维护软件物料清单（SBOM）</li>
+<li>持续监控 CVE 和 NVD 等漏洞数据库</li>
+<li>仅从受信任的官方源获取组件</li>
+</ul>
+<hr>
+<h2 id="七、A07-2021-身份识别和身份验证错误（Identification-and-Authentication-Failures）"><a href="#七、A07-2021-身份识别和身份验证错误（Identification-and-Authentication-Failures）" class="headerlink" title="七、A07:2021 - 身份识别和身份验证错误（Identification and Authentication Failures）"></a>七、A07:2021 - 身份识别和身份验证错误（Identification and Authentication Failures）</h2><h3 id="1-攻击方式-6"><a href="#1-攻击方式-6" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>攻击者利用网站应用程序中的身份认证缺陷获取高权限并进行攻击应用服务。</p>
+<h3 id="2-漏洞原因-6"><a href="#2-漏洞原因-6" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><p>应用程序身份认证系统认证缺陷。</p>
+<h3 id="3-弱密码攻击"><a href="#3-弱密码攻击" class="headerlink" title="3. 弱密码攻击"></a>3. 弱密码攻击</h3><p>身份认证非常容易受到弱密码攻击，常用的弱密码攻击方式：</p>
+<ul>
+<li>常用密码攻击：使用泄露的密码字典攻击</li>
+<li>使用公司名称缩写、域名、电话号码</li>
+<li>全数字、英文的简单密码</li>
+<li>账号与密码相同的</li>
+<li>不同网站、电脑、APP 使用相同的密码</li>
+<li>撞库攻击（Credential Stuffing）</li>
+</ul>
+<h3 id="4-漏洞防护-1"><a href="#4-漏洞防护-1" class="headerlink" title="4. 漏洞防护"></a>4. 漏洞防护</h3><ul>
+<li>网站的登录页面使用<strong>加密连接</strong></li>
+<li>网站具有良好的<strong>权限控制与管理</strong></li>
+<li>网站具备<strong>超时注销机制</strong></li>
+<li>启用<strong>多因素认证（MFA）</strong></li>
+<li>密码加盐哈希存储</li>
+<li><strong>限制登录失败次数</strong></li>
+<li>检查新密码或修改后的密码是否在 Top 10,000 弱密码列表中</li>
+<li>不在 URL 中暴露会话 ID</li>
+</ul>
+<hr>
+<h2 id="八、A08-2021-软件和数据完整性故障（Software-and-Data-Integrity-Failures）"><a href="#八、A08-2021-软件和数据完整性故障（Software-and-Data-Integrity-Failures）" class="headerlink" title="八、A08:2021 - 软件和数据完整性故障（Software and Data Integrity Failures）"></a>八、A08:2021 - 软件和数据完整性故障（Software and Data Integrity Failures）</h2><blockquote>
+<p>2021年新增类别，原“不安全反序列化”被归入此类别。</p>
+</blockquote>
+<h3 id="1-攻击方式-7"><a href="#1-攻击方式-7" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>攻击者利用软件更新、关键数据及 CI&#x2F;CD 流程中未经完整性验证的假设进行攻击。</p>
+<h3 id="2-漏洞原因-7"><a href="#2-漏洞原因-7" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><ul>
+<li>未对软件或数据的来源进行验证</li>
+<li>从未经验证的仓库获取依赖</li>
+<li>反序列化不可信数据</li>
+<li>CI&#x2F;CD 流水线缺乏完整性校验</li>
+</ul>
+<h3 id="3-漏洞防护-5"><a href="#3-漏洞防护-5" class="headerlink" title="3. 漏洞防护"></a>3. 漏洞防护</h3><ul>
+<li>使用<strong>数字签名</strong>或类似机制验证软件或数据来自预期来源且未被篡改</li>
+<li>确保库和依赖从<strong>受信任的仓库</strong>获取</li>
+<li>使用软件供应链安全工具（如 OWASP Dependency-Check 或 OWASP CycloneDX）验证组件不含已知漏洞</li>
+<li>对序列化数据进行完整性检查</li>
+<li>隔离反序列化操作环境</li>
+</ul>
+<hr>
+<h2 id="九、A09-2021-安全日志和监控故障（Security-Logging-and-Monitoring-Failures）"><a href="#九、A09-2021-安全日志和监控故障（Security-Logging-and-Monitoring-Failures）" class="headerlink" title="九、A09:2021 - 安全日志和监控故障（Security Logging and Monitoring Failures）"></a>九、A09:2021 - 安全日志和监控故障（Security Logging and Monitoring Failures）</h2><h3 id="1-漏洞原因"><a href="#1-漏洞原因" class="headerlink" title="1. 漏洞原因"></a>1. 漏洞原因</h3><p>对于日志记录的监控不足，造成攻击者攻击系统、应用、盗取数据等操作无法被发现和追查。</p>
+<h3 id="2-漏洞防护"><a href="#2-漏洞防护" class="headerlink" title="2. 漏洞防护"></a>2. 漏洞防护</h3><ul>
+<li>启用<strong>日志监控、告警机制</strong></li>
+<li>启用<strong>异地监控</strong>，C&#x2F;S 架构的监制机制</li>
+<li>尽可能完整地记录所有日志</li>
+<li>集中式日志管理</li>
+<li>定期审计日志</li>
+<li>对异常行为进行告警</li>
+</ul>
+<hr>
+<h2 id="十、A10-2021-服务端请求伪造（Server-Side-Request-Forgery-SSRF）"><a href="#十、A10-2021-服务端请求伪造（Server-Side-Request-Forgery-SSRF）" class="headerlink" title="十、A10:2021 - 服务端请求伪造（Server-Side Request Forgery, SSRF）"></a>十、A10:2021 - 服务端请求伪造（Server-Side Request Forgery, SSRF）</h2><blockquote>
+<p>2021年新增类别。</p>
+</blockquote>
+<h3 id="1-攻击方式-8"><a href="#1-攻击方式-8" class="headerlink" title="1. 攻击方式"></a>1. 攻击方式</h3><p>攻击者通过构造恶意请求，让服务器端向攻击者指定的目标发起请求，从而访问内部系统或敏感资源。</p>
+<h3 id="2-漏洞原因-8"><a href="#2-漏洞原因-8" class="headerlink" title="2. 漏洞原因"></a>2. 漏洞原因</h3><ul>
+<li>应用程序未验证用户提供的 URL 或目标地址</li>
+<li>允许服务器访问内部网络资源</li>
+<li>未对请求的目标进行限制</li>
+</ul>
+<h3 id="3-漏洞防护-6"><a href="#3-漏洞防护-6" class="headerlink" title="3. 漏洞防护"></a>3. 漏洞防护</h3><p><strong>从网络层着手：</strong></p>
+<ul>
+<li>将远端资源存取功能切割成不同子网路以降低 SSRF 冲击</li>
+<li>在防火墙策略或网络访问控制规则中实施**“默认全拒绝”**</li>
+</ul>
+<p><strong>从应用层着手：</strong></p>
+<ul>
+<li>过滤并验证来自用户端的全部输入</li>
+<li>使用<strong>正向白名单</strong>强制 URL schema、端口和目标地址</li>
+<li>不要将原始响应发送给客户端</li>
+<li>禁用 HTTP 重定向</li>
+<li>注意 URL 一致性以避免 DNS rebinding 等攻击</li>
+</ul>
+<blockquote>
+<p><strong>不要</strong>使用黑名单或正则表达式来缓解 SSRF。</p>
+</blockquote>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>风险</th>
+<th>核心防护思路</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A01</td>
+<td>失效的访问控制</td>
+<td>默认拒绝、最小权限、每次校验</td>
+</tr>
+<tr>
+<td>A02</td>
+<td>加密机制失效</td>
+<td>强制 HTTPS、强哈希、AES-256 加密</td>
+</tr>
+<tr>
+<td>A03</td>
+<td>注入</td>
+<td>参数化查询、输入校验、最小权限</td>
+</tr>
+<tr>
+<td>A04</td>
+<td>不安全设计</td>
+<td>威胁建模、安全设计模式、SDLC</td>
+</tr>
+<tr>
+<td>A05</td>
+<td>安全配置错误</td>
+<td>关闭 Debug、最小化安装、白名单</td>
+</tr>
+<tr>
+<td>A06</td>
+<td>自带缺陷和过时的组件</td>
+<td>依赖扫描、及时更新、SBOM</td>
+</tr>
+<tr>
+<td>A07</td>
+<td>身份识别和身份验证错误</td>
+<td>MFA、强密码策略、会话管理</td>
+</tr>
+<tr>
+<td>A08</td>
+<td>软件和数据完整性故障</td>
+<td>数字签名、信任源、供应链安全工具</td>
+</tr>
+<tr>
+<td>A09</td>
+<td>安全日志和监控故障</td>
+<td>集中日志、告警、审计</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>服务端请求伪造</td>
+<td>网络隔离、输入验证、正向白名单</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://owasp.org/Top10/2021/">https://owasp.org/Top10/2021/</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_73826804/article/details/136226960">https://blog.csdn.net/m0_73826804/article/details/136226960</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45840241/article/details/139106947">https://blog.csdn.net/weixin_45840241/article/details/139106947</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lixbao/article/details/124132711">https://blog.csdn.net/lixbao/article/details/124132711</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OWASP Top 10 漏洞总结（2021版）</div>
+      <div>https://blessing-heavenly.github.io/2026/09/11/Top10 漏洞/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Seth</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年9月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/09/11/SSRF%E6%BC%8F%E6%B4%9E/" title="SSRF（服务器端请求伪造）知识总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SSRF（服务器端请求伪造）知识总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/09/11/XSS%E6%BC%8F%E6%B4%9E/" title="XSS（跨站脚本攻击）知识总结">
+                        <span class="hidden-mobile">XSS（跨站脚本攻击）知识总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      凡是过往，皆为序章
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
