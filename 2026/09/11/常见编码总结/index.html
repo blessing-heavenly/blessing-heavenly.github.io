@@ -1,0 +1,947 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Seth">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="常见密码与编码总结brainfuck密码由字符 &gt; &lt; + - . , [ ] 组成。 ook！密码典型：含有大量ook。 新出现了短ook密码，具体题目应该有提示后一堆标点符号。 URL由 % + 十六进制数值组成。 可以通过以下方式判断：  查看特殊字符：观察字符串中是否包含类似 %20、%3D、%2F 等形式的特殊字符。这些都是URL编码中常见的表示方式，如果字符串中存在这样的字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见密码与编码总结">
+<meta property="og:url" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="学习经历分享">
+<meta property="og:description" content="常见密码与编码总结brainfuck密码由字符 &gt; &lt; + - . , [ ] 组成。 ook！密码典型：含有大量ook。 新出现了短ook密码，具体题目应该有提示后一堆标点符号。 URL由 % + 十六进制数值组成。 可以通过以下方式判断：  查看特殊字符：观察字符串中是否包含类似 %20、%3D、%2F 等形式的特殊字符。这些都是URL编码中常见的表示方式，如果字符串中存在这样的字">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/1.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/2.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/3.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/4.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/5.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/6.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/7.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/8.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/9.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/10.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/11.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/12.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/13.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/14.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/15.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/16.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/17.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/18.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/19.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/20.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/21.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/22.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/23.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/24.png">
+<meta property="article:published_time" content="2026-09-11T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-11T11:57:14.368Z">
+<meta property="article:author" content="Seth">
+<meta property="article:tag" content="Misc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blessing-heavenly.github.io/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/1.png">
+  
+  
+  
+  <title>常见密码与编码总结 - 学习经历分享</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blessing-heavenly.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Seth</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner-post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="常见密码与编码总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-09-11 18:00" pubdate>
+          2026年9月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">常见密码与编码总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="常见密码与编码总结"><a href="#常见密码与编码总结" class="headerlink" title="常见密码与编码总结"></a>常见密码与编码总结</h1><h2 id="brainfuck密码"><a href="#brainfuck密码" class="headerlink" title="brainfuck密码"></a>brainfuck密码</h2><p>由字符 <code>&gt;</code> <code>&lt;</code> <code>+</code> <code>-</code> <code>.</code> <code>,</code> <code>[</code> <code>]</code> 组成。</p>
+<h2 id="ook！密码"><a href="#ook！密码" class="headerlink" title="ook！密码"></a>ook！密码</h2><p>典型：含有大量ook。</p>
+<p>新出现了短ook密码，具体题目应该有提示后一堆标点符号。</p>
+<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>由 <code>%</code> + 十六进制数值组成。</p>
+<p>可以通过以下方式判断：</p>
+<ol>
+<li>查看特殊字符：观察字符串中是否包含类似 <code>%20</code>、<code>%3D</code>、<code>%2F</code> 等形式的特殊字符。这些都是URL编码中常见的表示方式，如果字符串中存在这样的字符，就有可能是经过了URL编码。</li>
+<li>检查编码规则：URL编码通常遵循一定的规则，如将空格编码为 <code>%20</code>，将等号编码为 <code>%3D</code> 等。对照URL编码规则，可以逐个字符检查是否符合编码规则。</li>
+</ol>
+<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><p><code>&amp;</code> <code>#</code> + 数值。</p>
+<h2 id="Unicode编码"><a href="#Unicode编码" class="headerlink" title="Unicode编码"></a>Unicode编码</h2><p><code>\u</code> + 四位数字。</p>
+<h2 id="AAencode编码"><a href="#AAencode编码" class="headerlink" title="AAencode编码"></a>AAencode编码</h2><p>颜文字 <del>(⊙o⊙)？</del></p>
+<h2 id="Quoted-Printable编码"><a href="#Quoted-Printable编码" class="headerlink" title="Quoted-Printable编码"></a>Quoted-Printable编码</h2><p>密文有大量“&#x3D;”，并且“&#x3D;”后面大概率有两个字符。</p>
+<h2 id="社会主义核心价值观编码"><a href="#社会主义核心价值观编码" class="headerlink" title="社会主义核心价值观编码"></a>社会主义核心价值观编码</h2><p>社会主义核心价值观词组成。</p>
+<h2 id="与佛论禅"><a href="#与佛论禅" class="headerlink" title="与佛论禅"></a>与佛论禅</h2><p>密文为禅语。</p>
+<h2 id="移位密码（凯撒密码）"><a href="#移位密码（凯撒密码）" class="headerlink" title="移位密码（凯撒密码）"></a>移位密码（凯撒密码）</h2><p>明文字母在字母表上向后（或向前）按照一个固定数目进行偏移。字符串中依稀能看出flag。</p>
+<h2 id="曲路密码"><a href="#曲路密码" class="headerlink" title="曲路密码"></a>曲路密码</h2><p>明文填入一个表中，并按照一定的曲路遍历，是移位密码的一种。</p>
+<h2 id="云影密码"><a href="#云影密码" class="headerlink" title="云影密码"></a>云影密码</h2><p>仅包含01248五个数字，0用于分割字符，其余数字用于做加和操作之后转换为明文。</p>
+<h2 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h2><p>把要加密的明文分成N个一组，然后把每组的第1个字连起来，形成一段无规律的话，一般需要一个栅栏数，通常题目会给出图片提示。</p>
+<h2 id="培根密码"><a href="#培根密码" class="headerlink" title="培根密码"></a>培根密码</h2><p>替换密码，每个明文字母被一个五个字符组成的序列表示。</p>
+<p>最初的方式是A和B两个字符组成（二元字符，5个长度），即出现二元化的字符（比如两种字母，字母大小写）和5的倍数长度的字符串，题目一般也会给出提示。</p>
+<p>明文中的每个字母根据下表转换成5个字母：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/1.png" srcset="/img/loading.gif" lazyload alt="培根密码对应表"></p>
+<h2 id="摩斯密码"><a href="#摩斯密码" class="headerlink" title="摩斯密码"></a>摩斯密码</h2><p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/2.png" srcset="/img/loading.gif" lazyload alt="摩斯密码表"></p>
+<p>还有表现形式：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/3.png" srcset="/img/loading.gif" lazyload alt="摩斯密码表现形式"></p>
+<p>可以直接通过网站自定义解密：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/4.png" srcset="/img/loading.gif" lazyload alt="摩斯密码自定义解密网站"></p>
+<h2 id="九宫格-键盘密码"><a href="#九宫格-键盘密码" class="headerlink" title="九宫格&#x2F;键盘密码"></a>九宫格&#x2F;键盘密码</h2><p>手机的数字键盘和九宫格输入的结合，通过两个数字定位到具体字符。这种密码的发现主要题目中都会暗示密码和手机相关。</p>
+<p>与之相似的还有键盘密码，也会提示密码和键盘相关。</p>
+<p>九键：前一位数字为密文对应位置，后一位数字为该位置的第几位字母。</p>
+<p>解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">c = <span class="hljs-string">&#x27;93 53 63 71 51 63 41 51 83 63 23 23 93 62 61 94 93 71 41 92 41 71 63 41 51 31 83 43 41 21 81 22 21 74 42&#x27;</span><br>table = [<span class="hljs-string">&#x27;ABC&#x27;</span>,<span class="hljs-string">&#x27;DEF&#x27;</span>,<span class="hljs-string">&#x27;GHI&#x27;</span>,<span class="hljs-string">&#x27;JKL&#x27;</span>,<span class="hljs-string">&#x27;MNO&#x27;</span>,<span class="hljs-string">&#x27;PQRS&#x27;</span>,<span class="hljs-string">&#x27;TUV&#x27;</span>,<span class="hljs-string">&#x27;WXYZ&#x27;</span>]<br>c = c.split(<span class="hljs-string">&#x27; &#x27;</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(c)):<br>    <span class="hljs-built_in">print</span>(table[<span class="hljs-built_in">int</span>(c[i][<span class="hljs-number">0</span>])-<span class="hljs-number">2</span>][<span class="hljs-built_in">int</span>(c[i][<span class="hljs-number">1</span>])-<span class="hljs-number">1</span>],end=<span class="hljs-string">&#x27;&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>键盘：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/5.png" srcset="/img/loading.gif" lazyload alt="键盘密码"></p>
+<p>解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">encrypt_qwe</span>(<span class="hljs-params">s</span>):<br>    DIC_QWE = <span class="hljs-string">&quot;qwertyuiopasdfghjklzxcvbnm&quot;</span><br>    DIC_ABC = <span class="hljs-string">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><br>    result=<span class="hljs-string">&quot;&quot;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> s:<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(DIC_ABC)):<br>            <span class="hljs-keyword">if</span> i==DIC_QWE[j]:<br>                result=result+DIC_ABC[j]<br>    <span class="hljs-keyword">return</span> result<br><br>s=<span class="hljs-string">&quot;bolkqltqelxxbmnabktctklt&quot;</span><br>s=s.lower()<span class="hljs-comment">#统一转化为小写</span><br>s=s.strip().replace(<span class="hljs-string">&quot; &quot;</span>,<span class="hljs-string">&quot;&quot;</span>)<span class="hljs-comment">#去掉空格</span><br><br><span class="hljs-built_in">print</span>(encrypt_qwe(s))<br></code></pre></td></tr></table></figure>
+
+<h2 id="Rabbit密码"><a href="#Rabbit密码" class="headerlink" title="Rabbit密码"></a>Rabbit密码</h2><p>由26个大小写字母和&#x3D;，+，&#x2F;组成。</p>
+<p>以 <code>U2FsdGVkX1</code> 开头。</p>
+<p>可能以“&#x3D;”结束。</p>
+<h2 id="盲文"><a href="#盲文" class="headerlink" title="盲文"></a>盲文</h2><p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/6.png" srcset="/img/loading.gif" lazyload alt="盲文对照表"></p>
+<h2 id="音符密码"><a href="#音符密码" class="headerlink" title="音符密码"></a>音符密码</h2><p>一串音符，如：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/7.png" srcset="/img/loading.gif" lazyload alt="音符密码示例"></p>
+<h2 id="猪圈密码（朱高密码、共济会暗号、共济会密码或共济会员密码）"><a href="#猪圈密码（朱高密码、共济会暗号、共济会密码或共济会员密码）" class="headerlink" title="猪圈密码（朱高密码、共济会暗号、共济会密码或共济会员密码）"></a>猪圈密码（朱高密码、共济会暗号、共济会密码或共济会员密码）</h2><p>以格子代替明文，如：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/8.png" srcset="/img/loading.gif" lazyload alt="猪圈密码示例1"></p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/9.png" srcset="/img/loading.gif" lazyload alt="猪圈密码示例2"></p>
+<h2 id="jother-编码"><a href="#jother-编码" class="headerlink" title="jother 编码"></a>jother 编码</h2><p>大量出现 <code>+</code> <code>!</code> <code>(</code> <code>)</code> <code>[</code> <code>]</code> <code>{</code> <code>}</code> 字符。</p>
+<h2 id="RC4-编码"><a href="#RC4-编码" class="headerlink" title="RC4 编码"></a>RC4 编码</h2><ol>
+<li><p>初始化状态向量S<br>将 S 初始化为256个字节，用来作为密钥流生成的种子1，再按照升序，给每个字节赋值： 0，1，2，3，4，5，6 …… 254，255</p>
+</li>
+<li><p>输入初始密钥<br>密钥长度任意，但如果输入长度小于256个字节，则将密钥进行轮转，直到填满 256 个字节的向量 T（密钥流生成的种子2）<br>例：<br>输入密钥：1，2，3，4，5<br>填入：1，2，3，4，5，1，2，3，4，5，……</p>
+</li>
+<li><p>对 S 进行置换操作<br>按照下列规则进行，打乱初始种子 1</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment">#从第零个字节开始，执行256次，保证每个字节都得到处理</span><br><span class="hljs-keyword">j </span>= <span class="hljs-number">0</span>;<br>for (i = <span class="hljs-number">0</span> <span class="hljs-comment">; i &lt; 256 ; i++)&#123;</span><br>    <span class="hljs-keyword">j </span>= (<span class="hljs-keyword">j </span>+ S[i] + T[i]) mod <span class="hljs-number">256</span>;<br>    <span class="hljs-keyword">swap(S[i] </span>, S[<span class="hljs-keyword">j]);</span><br><span class="hljs-keyword"></span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样处理后的 S 几乎是带有一定的随机性了</p>
+</li>
+<li><p>秘钥流的生成与加密</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment">#明文字节数 datalength ，当然可以是任意个字节</span><br>datalength=<span class="hljs-number">1024</span>;<br>i=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">j=0;</span><br><span class="hljs-keyword"></span><span class="hljs-comment">#相当于执行 1024 次，这样生成的秘钥流也是 1024 个字节</span><br>while(datalength--)&#123;<br>    i = (i + <span class="hljs-number">1</span>) mod <span class="hljs-number">256</span>;<br>    <span class="hljs-keyword">j </span>= (<span class="hljs-keyword">j </span>+ S[i]) mod <span class="hljs-number">256</span>;<br>    <span class="hljs-keyword">swap(S[i] </span>, S[<span class="hljs-keyword">j]);</span><br><span class="hljs-keyword"></span>    t = (S[i] + S[<span class="hljs-keyword">j]) </span>mod <span class="hljs-number">256</span>;<br>    <span class="hljs-comment">#这里的 K 就是当前生成的一个秘钥流中的一位</span><br>    k = S[t];        <br>    <span class="hljs-comment">#可以直接在这里进行加密，或者将密钥流保存在数组中最后进行异或</span><br>    <span class="hljs-comment">#进行加密，&quot;^&quot;是异或运算符</span><br>    data[]=data[]^k； <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>解密：只要把密钥流重新异或一次就能得到原文。</p>
+</li>
+</ol>
+<h2 id="仿射密码"><a href="#仿射密码" class="headerlink" title="仿射密码"></a>仿射密码</h2><p>加密函数定义为：</p>
+<p><code>e(x) = (a * x + b) mod 26</code></p>
+<p>其中密钥 a，b ∈ Z 并在数 26 以内。</p>
+<h2 id="跳舞的小人"><a href="#跳舞的小人" class="headerlink" title="跳舞的小人"></a>跳舞的小人</h2><p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/10.png" srcset="/img/loading.gif" lazyload alt="跳舞的小人1"></p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/11.png" srcset="/img/loading.gif" lazyload alt="跳舞的小人2"></p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/12.png" srcset="/img/loading.gif" lazyload alt="跳舞的小人3"></p>
+<h2 id="EBCDIC"><a href="#EBCDIC" class="headerlink" title="EBCDIC"></a>EBCDIC</h2><p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/13.png" srcset="/img/loading.gif" lazyload alt="EBCDIC对照表"></p>
+<h2 id="TTL"><a href="#TTL" class="headerlink" title="TTL"></a>TTL</h2><p>TTL 协议：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/14.png" srcset="/img/loading.gif" lazyload alt="TTL协议"></p>
+<p>TTL 加密：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/15.png" srcset="/img/loading.gif" lazyload alt="TTL加密"></p>
+<p>和 TTL 协议的关系：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/16.png" srcset="/img/loading.gif" lazyload alt="TTL协议关系"></p>
+<p>TTL 加密特征：</p>
+<p>加密数据都是 2 的倍数减一，转换为二进制后也可以发现只有前两位数不同：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/17.png" srcset="/img/loading.gif" lazyload alt="TTL加密特征"></p>
+<p>解密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> binascii<br> <br>f = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;[SWPU 2019]Network.txt&#x27;</span>, <span class="hljs-string">&quot;r&quot;</span>)<br><span class="hljs-built_in">str</span> = <span class="hljs-string">&#x27;&#x27;</span><br>Binary = <span class="hljs-string">&#x27;&#x27;</span><br>number = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>    num = f.readline()<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> num:<br>        <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">if</span> num.rstrip() == <span class="hljs-string">&#x27;63&#x27;</span>:  <span class="hljs-comment"># 去掉每行后面的空格</span><br>        Binary = <span class="hljs-string">&#x27;00&#x27;</span><br>    <span class="hljs-keyword">elif</span> num.rstrip() == <span class="hljs-string">&#x27;127&#x27;</span>:<br>        Binary = <span class="hljs-string">&#x27;01&#x27;</span><br>    <span class="hljs-keyword">elif</span> num.rstrip() == <span class="hljs-string">&#x27;191&#x27;</span>:<br>        Binary = <span class="hljs-string">&#x27;10&#x27;</span><br>    <span class="hljs-keyword">elif</span> num.rstrip() == <span class="hljs-string">&#x27;255&#x27;</span>:<br>        Binary = <span class="hljs-string">&#x27;11&#x27;</span><br>    <span class="hljs-built_in">str</span> += Binary<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(<span class="hljs-built_in">str</span>), <span class="hljs-number">8</span>):<br>    number += <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(<span class="hljs-built_in">str</span>[i:i + <span class="hljs-number">8</span>], <span class="hljs-number">2</span>))<br>data = binascii.unhexlify(number)<br> <br>f2=<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;1.txt&#x27;</span>,<span class="hljs-string">&#x27;wb&#x27;</span>)<br>f2.write(data)<br>f2.close()<br></code></pre></td></tr></table></figure>
+
+<h2 id="敲击码"><a href="#敲击码" class="headerlink" title="敲击码"></a>敲击码</h2><p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/18.png" srcset="/img/loading.gif" lazyload alt="敲击码对照表"></p>
+<h2 id="ADFGX"><a href="#ADFGX" class="headerlink" title="ADFGX"></a>ADFGX</h2><p>对应表：</p>
+<p>密码表 <code>phqgmeaynofdxkrcvszwbutil</code>：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/19.png" srcset="/img/loading.gif" lazyload alt="ADFGX密码表1"></p>
+<p>根据该图 <code>ag ag ag</code> 对应 <code>go go go</code>。</p>
+<p>另一密码表：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/20.png" srcset="/img/loading.gif" lazyload alt="ADFGX密码表2"></p>
+<p>有密钥：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/21.png" srcset="/img/loading.gif" lazyload alt="ADFGX有密钥"></p>
+<h2 id="变种ADFGVX"><a href="#变种ADFGVX" class="headerlink" title="变种ADFGVX"></a>变种ADFGVX</h2><p>对应表：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/22.png" srcset="/img/loading.gif" lazyload alt="ADFGVX对应表"></p>
+<p>有密钥：</p>
+<p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/23.png" srcset="/img/loading.gif" lazyload alt="ADFGVX有密钥"></p>
+<h2 id="emoji"><a href="#emoji" class="headerlink" title="emoji"></a>emoji</h2><p>解密网站：<a target="_blank" rel="noopener" href="https://aghorler.github.io/emoji-aes/">https://aghorler.github.io/emoji-aes/</a></p>
+<h2 id="JavaScript-加密"><a href="#JavaScript-加密" class="headerlink" title="JavaScript 加密"></a>JavaScript 加密</h2><p><img src="/2026/09/11/%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/24.png" srcset="/img/loading.gif" lazyload alt="JavaScript加密"></p>
+<p>解密网站：<a target="_blank" rel="noopener" href="https://www.jb51.net/tools/onlinetools/jiemi/jsendecode.htm">https://www.jb51.net/tools/onlinetools/jiemi/jsendecode.htm</a></p>
+<h2 id="UUEncode"><a href="#UUEncode" class="headerlink" title="UUEncode"></a>UUEncode</h2><p>密文由 “&#96;!”#$%&amp;’()*+,-.&#x2F;0123456789:;&lt;&#x3D;&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_” 组成。</p>
+<p>在线解密：<a target="_blank" rel="noopener" href="http://www.hiencode.com/uu.html">http://www.hiencode.com/uu.html</a></p>
+<h2 id="rot47"><a href="#rot47" class="headerlink" title="rot47"></a>rot47</h2><p>a<del>z，A</del>Z，0~9，!”#$%&amp;’()*+,-.&#x2F; 等。</p>
+<p>用于ROT47编码的字符其ASCII值范围是33－126。</p>
+<h2 id="阴阳怪气编码"><a href="#阴阳怪气编码" class="headerlink" title="阴阳怪气编码"></a>阴阳怪气编码</h2><p>密文特征：就 这 ¿ 不 会 吧 ？</p>
+<p>解密：<a target="_blank" rel="noopener" href="https://jiji.pro/yygq.js/">https://jiji.pro/yygq.js/</a></p>
+<h2 id="兽音加密"><a href="#兽音加密" class="headerlink" title="兽音加密"></a>兽音加密</h2><p>密文特征：嗷呜啊 等动物咆哮拟声词。</p>
+<p>解密：<a target="_blank" rel="noopener" href="https://roar.iiilab.com/">https://roar.iiilab.com/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Misc/" class="print-no-link">#Misc</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>常见密码与编码总结</div>
+      <div>https://blessing-heavenly.github.io/2026/09/11/常见编码总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Seth</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年9月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/" title="Volatility 内存取证工具使用笔记">
+                        <span class="hidden-mobile">Volatility 内存取证工具使用笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      凡是过往，皆为序章
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
