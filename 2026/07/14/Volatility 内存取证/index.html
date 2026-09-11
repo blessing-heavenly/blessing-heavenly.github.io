@@ -1,0 +1,1161 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Seth">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Volatility一、安装官网地址：https:&#x2F;&#x2F;volatilityfoundation.org&#x2F;about-volatility&#x2F; 1. Volatility 2.6 安装1.1 安装前条件12sudo apt updatesudo apt install python3-distorm3 python3-pycryptodome python3-yara python3-xlsxwrit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Volatility 内存取证工具使用笔记">
+<meta property="og:url" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/index.html">
+<meta property="og:site_name" content="学习经历分享">
+<meta property="og:description" content="Volatility一、安装官网地址：https:&#x2F;&#x2F;volatilityfoundation.org&#x2F;about-volatility&#x2F; 1. Volatility 2.6 安装1.1 安装前条件12sudo apt updatesudo apt install python3-distorm3 python3-pycryptodome python3-yara python3-xlsxwrit">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/1.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/2.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/3.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/4.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/5.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/6.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/7.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/8.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/9.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/10.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/11.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/12.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/13.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/14.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/15.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/16.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/17.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/18.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/19.png">
+<meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/20.png">
+<meta property="article:published_time" content="2026-07-14T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-09-11T11:39:33.777Z">
+<meta property="article:author" content="Seth">
+<meta property="article:tag" content="Misc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blessing-heavenly.github.io/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/1.png">
+  
+  
+  
+  <title>Volatility 内存取证工具使用笔记 - 学习经历分享</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blessing-heavenly.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Seth</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner-post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Volatility 内存取证工具使用笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-14 18:00" pubdate>
+          2026年7月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          83 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Volatility 内存取证工具使用笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Volatility"><a href="#Volatility" class="headerlink" title="Volatility"></a>Volatility</h1><h2 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h2><p>官网地址：<a target="_blank" rel="noopener" href="https://volatilityfoundation.org/about-volatility/">https://volatilityfoundation.org/about-volatility/</a></p>
+<h3 id="1-Volatility-2-6-安装"><a href="#1-Volatility-2-6-安装" class="headerlink" title="1. Volatility 2.6 安装"></a>1. Volatility 2.6 安装</h3><h4 id="1-1-安装前条件"><a href="#1-1-安装前条件" class="headerlink" title="1.1 安装前条件"></a>1.1 安装前条件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt update<br><span class="hljs-built_in">sudo</span> apt install python3-distorm3 python3-pycryptodome python3-yara python3-xlsxwriter<br></code></pre></td></tr></table></figure>
+
+<p>在虚拟机中打开终端（建议在已知的文件夹中打开），输入以下命令来克隆 volatility 项目源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/volatilityfoundation/volatility<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-2-安装插件"><a href="#1-2-安装插件" class="headerlink" title="1.2 安装插件"></a>1.2 安装插件</h4><p>这里要进入之前下载好的 volatility 文件夹里：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">python setup.py build<br>python setup.py install<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-3-安装-setuptools"><a href="#1-3-安装-setuptools" class="headerlink" title="1.3 安装 setuptools"></a>1.3 安装 setuptools</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://pypi.python.org/packages/45/29/8814bf414e7cd1031e1a3c8a4169218376e284ea2553cc0822a6ea1c2d78/setuptools-36.6.0.zip<br>unzip setuptools-36.6.0.zip<br><span class="hljs-built_in">cd</span> setuptools-36.6.0<br>python setup.py install<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-4-安装-pip"><a href="#1-4-安装-pip" class="headerlink" title="1.4 安装 pip"></a>1.4 安装 pip</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/pip-9.0.1.tar.gz<br>tar -zxvf pip-9.0.1.tar.gz<br><span class="hljs-built_in">cd</span> pip-9.0.1<br>python setup.py install<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-5-安装-python-dev"><a href="#1-5-安装-python-dev" class="headerlink" title="1.5 安装 python-dev"></a>1.5 安装 python-dev</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt-get install python-dev<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-6-安装-distorm3"><a href="#1-6-安装-distorm3" class="headerlink" title="1.6 安装 distorm3"></a>1.6 安装 distorm3</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/vext01/distorm3<br><span class="hljs-comment"># 进入 distorm3 的目录：</span><br><span class="hljs-built_in">cd</span> distorm3<br><span class="hljs-comment"># 然后执行：</span><br>python2 setup.py install<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-7-安装-pycryptodome"><a href="#1-7-安装-pycryptodome" class="headerlink" title="1.7 安装 pycryptodome"></a>1.7 安装 pycryptodome</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip2 install pycryptodome<br><span class="hljs-comment"># 若安装失败，尝试切换国内源后重试</span><br>pip2 install pycryptodome -i https://pypi.tuna.tsinghua.edu.cn/simple<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-8-安装-Volatility"><a href="#1-8-安装-Volatility" class="headerlink" title="1.8 安装 Volatility"></a>1.8 安装 Volatility</h4><p>进入 Volatility 所在目录（注意退出之前进入的 distorm3 目录）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> volatility<br><span class="hljs-comment"># 执行命令</span><br>python2 setup.py install<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-9-测试"><a href="#1-9-测试" class="headerlink" title="1.9 测试"></a>1.9 测试</h4><p>任意目录下执行：<code>vol.py --help</code>（查看帮助）或 <code>vol.py --info</code>（查看插件），若能正常显示相关信息，不报错，即为安装成功。</p>
+<h4 id="1-10-下载中遇到的问题"><a href="#1-10-下载中遇到的问题" class="headerlink" title="1.10 下载中遇到的问题"></a>1.10 下载中遇到的问题</h4><p><strong>报错：缺少一些构建依赖项</strong></p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/1.png" srcset="/img/loading.gif" lazyload alt="报错内容"></p>
+<p>解决：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt-get install build-essential libgmp3-dev libmpc-dev libmpfr-dev libpython3-dev<br></code></pre></td></tr></table></figure>
+
+<p><strong>报错：pycryptodome 安装出错：</strong></p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/2.png" srcset="/img/loading.gif" lazyload alt="报错内容"></p>
+<p>解决方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install --upgrade setuptools<br><span class="hljs-built_in">sudo</span> apt-get install python2-dev<br>pip2 install pycrypto <br></code></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<p>安装系统依赖项：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install -y build-essential git libdistorm3-dev yara libraw1394-11 libcapstone-dev capstone-tool tzdata<br></code></pre></td></tr></table></figure>
+
+<p>安装适用于 Python 2 的 pip：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install -y python2 python2.7-dev libpython2-dev<br>curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py<br><span class="hljs-built_in">sudo</span> python2 get-pip.py<br><span class="hljs-built_in">sudo</span> python2 -m pip install -U setuptools wheel<br></code></pre></td></tr></table></figure>
+
+<p>安装 Volatility 2 及其 Python 依赖项：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">python2 -m pip install -U distorm3 yara pycrypto pillow openpyxl ujson pytz ipython capstone<br><span class="hljs-built_in">sudo</span> python2 -m pip install yara<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">ln</span> -s /usr/local/lib/python2.7/dist-packages/usr/lib/libyara.so /usr/lib/libyara.so<br>python2 -m pip install -U git+https://github.com/volatilityfoundation/volatility.git<br></code></pre></td></tr></table></figure>
+
+<p>如果没有 pip2：</p>
+<p>下载 get-pip.py 脚本来安装 pip2：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py<br></code></pre></td></tr></table></figure>
+
+<p>使用 Python 2 执行该脚本来安装 pip2：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> python2 get-pip.py<br></code></pre></td></tr></table></figure>
+
+<p>如果有权限限制，可以安装到用户目录下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python2 get-pip.py --user<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注：</strong><br>事实上我也不太确定，我折腾了很多东西，但我不知道那些是否对后面的成功起到了作用，但最后确实是用以上命令解决了问题<br>总之主要是 pycryptodome 报错，pycrypto 适用于 python2 而不适用于 python3 ，所以需要下载 pycryptodome</p>
+</blockquote>
+<h3 id="2-Volatility-3-0-安装"><a href="#2-Volatility-3-0-安装" class="headerlink" title="2. Volatility 3.0 安装"></a>2. Volatility 3.0 安装</h3><h4 id="2-1-安装本体"><a href="#2-1-安装本体" class="headerlink" title="2.1 安装本体"></a>2.1 安装本体</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/volatilityfoundation/volatility3.git<br><span class="hljs-built_in">cd</span> volatility3<br>python3 setup.py install<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-2-安装依赖项"><a href="#2-2-安装依赖项" class="headerlink" title="2.2 安装依赖项"></a>2.2 安装依赖项</h4><p>要先进入已安装好本体的目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip3 install -r requirements-minimal.txt<br>python3 setup.py build <br>python3 setup.py install<br>pip3 install -r requirements.txt<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-3-检测"><a href="#2-3-检测" class="headerlink" title="2.3 检测"></a>2.3 检测</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 vol.py -h<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、命令"><a href="#二、命令" class="headerlink" title="二、命令"></a>二、命令</h2><p>Volatility Foundation Volatility Framework 2.6</p>
+<p>用法： <code>vol.py</code> - 内存取证分析平台</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/3.png" srcset="/img/loading.gif" lazyload alt="选项"></p>
+<h3 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="1. 基本使用"></a>1. 基本使用</h3><p>命令格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">vol.py -f [image] --profile=[profile] [plugin]<br>vol.py -f [对象] --profile=[操作系统] [插件参数]<br></code></pre></td></tr></table></figure>
+
+<p>先判断当前的镜像信息，分析出是哪个操作系统：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vol.py -f xxx.vmem imageinfo<br></code></pre></td></tr></table></figure>
+
+<p>在查到操作系统后不确定，就使用以下命令查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vol.py -f xxx.vmem --profile=[操作系统] volshell<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-常用命令插件"><a href="#2-常用命令插件" class="headerlink" title="2. 常用命令插件"></a>2. 常用命令插件</h3><h4 id="2-1-查看当前内存镜像中的用户"><a href="#2-1-查看当前内存镜像中的用户" class="headerlink" title="2.1 查看当前内存镜像中的用户"></a>2.1 查看当前内存镜像中的用户</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">printkey -K <br>vol.py -f [对象] --profile=[操作系统] printkey -K<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-2-查看用户名密码信息"><a href="#2-2-查看用户名密码信息" class="headerlink" title="2.2 查看用户名密码信息"></a>2.2 查看用户名密码信息</h4><p>（密码是哈希值，需要 john 爆破）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hashdump<br>vol.py -f [对象] --profile=[操作系统] hashdump<br></code></pre></td></tr></table></figure>
+
+<p>如果 john 爆破不出，使用 lsadump 查看强密码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">lsadump<br>vol.py -f [对象] --profile=[操作系统] lsadump<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-3-查看进程"><a href="#2-3-查看进程" class="headerlink" title="2.3 查看进程"></a>2.3 查看进程</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pslist<br>vol.py -f [对象] --profile=[操作系统] pslist<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注：</strong><br><code>pslist</code>：该插件列举出系统进程，但它不能检测到隐藏或者解链的进程，<code>psscan</code> 可以。</p>
+</blockquote>
+<p>查看已知进程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pslist -p 2588<br>vol.py -f [对象] --profile=[操作系统] pslist -p 2588<br></code></pre></td></tr></table></figure>
+
+<p>隐藏或解链的进程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">psscan<br>vol.py -f [对象] --profile=[操作系统] psscan<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注：</strong><br>可以找到先前已终止(不活动)的进程以及被 rootkit 隐藏或解链的进程。</p>
+</blockquote>
+<h4 id="2-4-扫描-Windows-的服务"><a href="#2-4-扫描-Windows-的服务" class="headerlink" title="2.4 扫描 Windows 的服务"></a>2.4 扫描 Windows 的服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">svcscan<br>vol.py -f [对象] --profile=[操作系统] svcscan<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-5-查看浏览器历史记录"><a href="#2-5-查看浏览器历史记录" class="headerlink" title="2.5 查看浏览器历史记录"></a>2.5 查看浏览器历史记录</h4><p>获取当前系统浏览器搜索过的关键词：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">iehistory<br>vol.py -f [对象] --profile=[操作系统] iehistory<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-6-查看网络连接"><a href="#2-6-查看网络连接" class="headerlink" title="2.6 查看网络连接"></a>2.6 查看网络连接</h4><p>获取当前系统 ip：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">netscan <br>vol.py -f [对象] --profile=[操作系统] netscan<br></code></pre></td></tr></table></figure>
+
+<p>有一些版本中这个命令使用不了，这里就要使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">connscan<br>vol.py -f [对象] --profile=[操作系统] connscan<br>connections<br>vol.py -f [对象] --profile=[操作系统] connections<br></code></pre></td></tr></table></figure>
+
+<p>如果要找当前系统中开启过的进程的 ip ，加上 <code>|grep 进程名</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vol.py -f [对象] --profile=[操作系统] netscan|grep 进程名<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-7-查看命令行操作"><a href="#2-7-查看命令行操作" class="headerlink" title="2.7 查看命令行操作"></a>2.7 查看命令行操作</h4><p>用于查看终端记录，显示 cmd 历史命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">cmdscan<br>vol.py -f [对象] --profile=[操作系统] cmdscan<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-8-查看进程命令行参数"><a href="#2-8-查看进程命令行参数" class="headerlink" title="2.8 查看进程命令行参数"></a>2.8 查看进程命令行参数</h4><p>（具体一些可疑进程的参数指令）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">cmdline<br>vol.py -f [对象] --profile=[操作系统] cmdline<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-9-扫描所有的文件列表"><a href="#2-9-扫描所有的文件列表" class="headerlink" title="2.9 扫描所有的文件列表"></a>2.9 扫描所有的文件列表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">filescan<br>vol.py -f [对象] --profile=[操作系统] filescan<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>在 linux 中可配合 grep 命令进行相关字符定向扫描，如：<ul>
+<li><code>grep flag</code>、<code>grep -E ‘png|jpg|gif|zip|rar|7z|pdf|txt|doc’</code></li>
+<li>例：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">volatility -f 1.vmem --profile=Win7SP1x64 filescan grep <span class="hljs-string">&quot;flag.txt&quot;</span><br><span class="hljs-built_in">cat</span> system.txt|grep -i computername<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-10-导出某一文件"><a href="#2-10-导出某一文件" class="headerlink" title="2.10 导出某一文件"></a>2.10 导出某一文件</h4><p>（指定虚拟地址）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">dumpfiles<br>vol.py -f [对象] --profile=[操作系统] dumpfiles -Q 0xxxxxxxx -D ./<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>需要指定偏移量 <code>-Q</code> 和输出目录 <code>-D</code></li>
+</ul>
+<h4 id="2-11-查看当前展示的-notepad-内容"><a href="#2-11-查看当前展示的-notepad-内容" class="headerlink" title="2.11 查看当前展示的 notepad 内容"></a>2.11 查看当前展示的 notepad 内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">notepad<br>vol.py -f [对象] --profile=[操作系统] notepad<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>–profile=winxp</code> 等低版本可以，win7 的不行，可以尝试使用 <code>editbox</code></li>
+</ul>
+<h4 id="2-12-显示有关编辑控件的信息"><a href="#2-12-显示有关编辑控件的信息" class="headerlink" title="2.12 显示有关编辑控件的信息"></a>2.12 显示有关编辑控件的信息</h4><p>（曾经编辑过的内容），查看内存中记事本的内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">editbox<br>vol.py -f [对象] --profile=[操作系统] editbox<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-13-提取进程"><a href="#2-13-提取进程" class="headerlink" title="2.13 提取进程"></a>2.13 提取进程</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">memdump<br>vol.py -f [对象] --profile=[操作系统] memdump -p xxx --dump-dir=./<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>常用 <code>foremost</code> 来分离 dump 出来的进程文件，不推荐用 <code>binwalk -e</code></li>
+<li>可以通过 <code>strings -e l 2040.dmp | grep flag</code> 查找 flag</li>
+<li>需要指定进程 <code>-p [pid]</code> 和输出目录 <code>-D</code><br>例：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">memdump -p 332 -D XX/   <br>提取进程   -p 进程号 -D 当前输出路径<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-14-屏幕截图"><a href="#2-14-屏幕截图" class="headerlink" title="2.14 屏幕截图"></a>2.14 屏幕截图</h4><p>保存基于 GDI 窗口的伪截屏：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">screenshot<br>vol.py -f [对象] --profile=[操作系统] screenshot --dump-dir=./<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-15-查看注册表配置单元"><a href="#2-15-查看注册表配置单元" class="headerlink" title="2.15 查看注册表配置单元"></a>2.15 查看注册表配置单元</h4><p>列出所有的注册表项及其虚拟地址和物理地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hivelist<br>vol.py -f [对象] --profile=[操作系统] hivelist<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-16-查看注册表键名"><a href="#2-16-查看注册表键名" class="headerlink" title="2.16 查看注册表键名"></a>2.16 查看注册表键名</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hivedmp<br>vol.py -f [对象] --profile=[操作系统] hivedump -o 0xfffff8a001032410<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-17-查看注册表键值"><a href="#2-17-查看注册表键值" class="headerlink" title="2.17 查看注册表键值"></a>2.17 查看注册表键值</h4><p>获取主机名，列出用户名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">printkey<br>vol.py -f [对象] --profile=[操作系统] printkey -K <span class="hljs-string">&quot;ControlSet001\Control\ComputerName\ComputerName&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>ControlSet001</code> : 注册表中的一个键，<code>Control\ComputerName\ComputerName</code> ：计算机名称的位置。</p>
+<p>获取主机名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vol.py -f [对象] --profile=[操作系统] -o 地址 printkey -K <span class="hljs-string">&quot;ControlSet001\Control\ComputerName\ComputerName&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>地址：可以通过 <code>hivelist</code> 获得。</p>
+<h4 id="2-18-查看运行程序相关的记录"><a href="#2-18-查看运行程序相关的记录" class="headerlink" title="2.18 查看运行程序相关的记录"></a>2.18 查看运行程序相关的记录</h4><p>比如最后一次更新时间，运行过的次数等：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">userassist<br>vol.py -f [对象] --profile=[操作系统] userassist<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-19-最大程序提取信息"><a href="#2-19-最大程序提取信息" class="headerlink" title="2.19 最大程序提取信息"></a>2.19 最大程序提取信息</h4><p>将所有操作系统事件以时间线的方式展开：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">timeliner<br>vol.py -f [对象] --profile=[操作系统] timeliner<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-20-查看剪贴板信息"><a href="#2-20-查看剪贴板信息" class="headerlink" title="2.20 查看剪贴板信息"></a>2.20 查看剪贴板信息</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">clipboard<br>vol.py -f [对象] --profile=[操作系统] clipboard<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-21-显示关于计算机及其操作系统的详细配置信息"><a href="#2-21-显示关于计算机及其操作系统的详细配置信息" class="headerlink" title="2.21 显示关于计算机及其操作系统的详细配置信息"></a>2.21 显示关于计算机及其操作系统的详细配置信息</h4><p>（插件）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">systeminfo<br>vol.py -f [对象] --profile=[操作系统] systeminfo<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-22-恢复被删除的文件"><a href="#2-22-恢复被删除的文件" class="headerlink" title="2.22 恢复被删除的文件"></a>2.22 恢复被删除的文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">mftparser<br>vol.py -f [对象] --profile=[操作系统] mftparser<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-23-查看环境变量"><a href="#2-23-查看环境变量" class="headerlink" title="2.23 查看环境变量"></a>2.23 查看环境变量</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">envars<br>vol.py -f [对象] --profile=[操作系统] envars<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-24-列出某一进程加载的所有-dll-文件"><a href="#2-24-列出某一进程加载的所有-dll-文件" class="headerlink" title="2.24 列出某一进程加载的所有 dll 文件"></a>2.24 列出某一进程加载的所有 dll 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">dlllist<br>vol.py -f [对象] --profile=[操作系统] dlllist -p 2588<br></code></pre></td></tr></table></figure>
+
+<p>需要指定进程 <code>-p [pid]</code>。</p>
+<h4 id="2-25-程序版本信息"><a href="#2-25-程序版本信息" class="headerlink" title="2.25 程序版本信息"></a>2.25 程序版本信息</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">verinfo<br>vol.py -f [对象] --profile=[操作系统] verinfo<br></code></pre></td></tr></table></figure>
+
+<p>列出 PE｜程序版本信息。</p>
+<h4 id="2-26-查看进程树"><a href="#2-26-查看进程树" class="headerlink" title="2.26 查看进程树"></a>2.26 查看进程树</h4><p>可以轻松了解各进程之间的关系，父进程与子进程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">pstree<br>vol.py -f [对象] --profile=[操作系统] pstree<br></code></pre></td></tr></table></figure>
+
+<p>在进程中 PPID 比 PID 还大，那这个进程就可能有异常程序。</p>
+<h4 id="2-27-从内存文件中找到异常程序植入到系统的开机自启痕迹"><a href="#2-27-从内存文件中找到异常程序植入到系统的开机自启痕迹" class="headerlink" title="2.27 从内存文件中找到异常程序植入到系统的开机自启痕迹"></a>2.27 从内存文件中找到异常程序植入到系统的开机自启痕迹</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">shimcache<br>vol.py -f 2008.raw --profile=[操作系统] shimcache<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、生成-抓取内存-dump-文件的方式"><a href="#三、生成-抓取内存-dump-文件的方式" class="headerlink" title="三、生成&#x2F;抓取内存 dump 文件的方式"></a>三、生成&#x2F;抓取内存 dump 文件的方式</h2><h3 id="1-生成"><a href="#1-生成" class="headerlink" title="1. 生成"></a>1. 生成</h3><h4 id="1-1-VMware-虚拟机软件"><a href="#1-1-VMware-虚拟机软件" class="headerlink" title="1.1 VMware 虚拟机软件"></a>1.1 VMware 虚拟机软件</h4><p>VM 暂停虚拟后就可以看到 vmem 文件，该文件可以直接被 volatility 分析。</p>
+<h4 id="1-2-使用第三方软件"><a href="#1-2-使用第三方软件" class="headerlink" title="1.2 使用第三方软件"></a>1.2 使用第三方软件</h4><p>针对于物理机，可以使用如下工具来抓取内存 dump：</p>
+<ul>
+<li>KnTTools</li>
+<li>F-Response</li>
+<li>Mandiant Memoryze</li>
+<li>HBGary FastDump</li>
+<li>MoonSols Windows Memory Toolkit</li>
+<li>AccessData FTK Imager</li>
+<li>EnCase&#x2F;WinEn</li>
+<li>Belkasoft Live RAM Capturer</li>
+<li>ATC-NY Windows Memory Reader</li>
+<li>Winpmem</li>
+<li>Win32dd&#x2F;Win64dd</li>
+<li>DumpIt</li>
+</ul>
+<p>windows 下可以使用 AccessData FTK Imager 来完成。</p>
+<h4 id="1-3-CuckooSandbox"><a href="#1-3-CuckooSandbox" class="headerlink" title="1.3 CuckooSandbox"></a>1.3 CuckooSandbox</h4><p>Cuckoo 沙箱在分析恶意样本后生成 dump 文件。<br>官方地址：<a target="_blank" rel="noopener" href="https://cuckoo.sh/docs/introduction/index.html">https://cuckoo.sh/docs/introduction/index.html</a></p>
+<h3 id="2-抓取"><a href="#2-抓取" class="headerlink" title="2. 抓取"></a>2. 抓取</h3><p>下载内存抓取工具：Lime</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/504ensicsLabs/LiME.git<br></code></pre></td></tr></table></figure>
+
+<p>编译工具：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> lime/src<br>make<br></code></pre></td></tr></table></figure>
+
+<p>加载内核模块：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> insmod lime-uname -r.ko <span class="hljs-string">&quot;path=&lt;outfile | tcp:&lt;port&gt;&gt; format=&lt;raw|padded|lime&gt; [dio=&lt;0|1&gt;]&quot;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>path</code> 参数可以为输出文件（outfile)，用于本地保存 或 <code>tcp:&lt;port&gt;</code> 用于远程监听。</li>
+<li><code>format</code>：<code>raw</code> 将所有系统 RAM 空间串联起来，<code>padded</code> 将非系统 RAM 空间以 0 填充，而 <code>lime</code> 将每段空间前填充固定大小的头部，该头部包含地址空间信息。</li>
+<li><code>dio</code> 用于是否启用 Direct IO。</li>
+</ul>
+<p>我们则是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> insmod lime-uname -r.ko <span class="hljs-string">&quot;path=/home/crazydog/ubuntu.lime format=lime&quot;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注：</strong><br>这一步会使得系统非常卡顿，使用时不要使用在生产系统上防止对正常应用造成影响。</p>
+</blockquote>
+<hr>
+<h2 id="四、输出"><a href="#四、输出" class="headerlink" title="四、输出"></a>四、输出</h2><p>对于不同的插件，Volatility 取证得出的结果可以以不同的方式输出。输出方式包含：</p>
+<ul>
+<li><code>text</code> ：以表的形式文本输出</li>
+<li><code>dot</code> ：以点阵图形式输出</li>
+<li><code>html</code></li>
+<li><code>json</code> ：可用于不同的 api 之间数据交换</li>
+<li><code>sqlite</code> ：存到数据库中</li>
+<li><code>quick</code> ：以 <code>|</code> 符号分隔输出文本</li>
+<li><code>xlsx</code> ：以 excel 文件输出</li>
+</ul>
+<p>用 <code>-h</code> 命令来获取不同插件的输出格式，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">python vol.py linux_pstree -h<br>Module Output Options: dot, greptext, html, json, sqlite, text, xlsx<br><br>---------------------------------<br>Module PSTree<br>---------------------------------<br>Print process list as a tree<br></code></pre></td></tr></table></figure>
+
+<p>以 html 输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python vol.py --profile=LinuxUbuntu1404_Manualx64 linux_pstree -f /home/crazydog/workspace/miscellaneous/Ubuntu1404.lime --output=html --output-file=pstree1.html<br></code></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/4.png" srcset="/img/loading.gif" lazyload alt="html输出结果"></p>
+<p>以 json 文件输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python vol.py --profile=LinuxUbuntu1404_Manualx64 linux_pstree -f /home/crazydog/workspace/miscellaneous/Ubuntu1404.lime --output=json --output-file=pstree1.json<br></code></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/5.png" srcset="/img/loading.gif" lazyload alt="json输出结果"></p>
+<p>以 sqlite 输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">python vol.py --profile=LinuxUbuntu1404_Manualx64 linux_pstree -f /home/crazydog/workspace/miscellaneous/Ubuntu1404.lime --output=sqlite --output-file=pstree.db<br>sqlite3 pstree.db <br>SQLite version 3.8.2 2013-12-06 14:53:30<br>Enter <span class="hljs-string">&quot;.help&quot;</span> <span class="hljs-keyword">for</span> instructions<br>Enter SQL statements terminated with a <span class="hljs-string">&quot;;&quot;</span><br>sqlite&gt; .schema<br>CREATE TABLE linux_pstree( <span class="hljs-built_in">id</span> INTEGER, <span class="hljs-string">&quot;Offset&quot;</span> TEXT, <span class="hljs-string">&quot;Name&quot;</span> TEXT, <span class="hljs-string">&quot;Level&quot;</span> TEXT, <span class="hljs-string">&quot;Pid&quot;</span> TEXT, <span class="hljs-string">&quot;Ppid&quot;</span> TEXT, <span class="hljs-string">&quot;Uid&quot;</span> TEXT, <span class="hljs-string">&quot;Gid&quot;</span> TEXT, <span class="hljs-string">&quot;Euid&quot;</span> TEXT);<br>sqlite&gt; <span class="hljs-keyword">select</span> * from linux_pstree <span class="hljs-built_in">limit</span> 5;<br>1|18446612137572106240|init|init|1|0|0|0|18446612137528196244<br>2|18446612135375493200|ureadahead|.ureadahead|337|1|0|0|18446612133204786132<br>3|18446612133205114880|upstart-udev-br|.upstart-udev-br|465|1|0|0|18446612135375781588<br>4|18446612133213175808|systemd-udevd|.systemd-udevd|471|1|0|0|18446612137544357140<br>5|18446612133194321536|upstart-file-br|.upstart-file-br|523|1|0|0|18446612133204784596<br>sqlite&gt; <br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、解题大致思路"><a href="#五、解题大致思路" class="headerlink" title="五、解题大致思路"></a>五、解题大致思路</h2><ol>
+<li>确定镜像的操作系统，通过命令 <code>imageinfo</code> 即可获取镜像信息。</li>
+<li>获取计算机在这一时刻运行的进程：<br>分析进程的命令，如 <code>pstree</code>、<code>psscan</code>、<code>pslist</code>……<br><code>filescan</code> 命令可以对打开的文件进行扫描。</li>
+<li>导出相关数据，可使用命令 <code>dumpfile</code> 和 <code>memdump</code>，</li>
+<li>对导出的数据进行二进制分析。</li>
+</ol>
+<hr>
+<h2 id="六、例题"><a href="#六、例题" class="headerlink" title="六、例题"></a>六、例题</h2><h3 id="OtterCTF-2018"><a href="#OtterCTF-2018" class="headerlink" title="[OtterCTF 2018]"></a>[OtterCTF 2018]</h3><h4 id="1-What-is-the-password"><a href="#1-What-is-the-password" class="headerlink" title="1. What is the password?"></a>1. What is the password?</h4><p>是求密码，直接得到一个 vmem 文件，首先查看主机名称，输入命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vol.py -f xxx.vmem imageinfo<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/6.png" srcset="/img/loading.gif" lazyload alt="示例1"></p>
+<p>选择 info - suggest … 中的第一个系统名：Win7SP1*64 即可。</p>
+<p>然后输入命令 <code>hashdump</code>：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/7.png" srcset="/img/loading.gif" lazyload alt="示例2"></p>
+<p>得到的密码要 john 爆破一下，直接在 kali 里就可以使用 *</p>
+<p>先把得到的结果保存为一个 txt 文件，然后输入命令直接爆破：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">john 文件地址 --show --format=LM *<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/8.png" srcset="/img/loading.gif" lazyload alt="示例3"></p>
+<p>没爆出来，那就改用强密码 <code>lsadump</code> 命令：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/9.png" srcset="/img/loading.gif" lazyload alt="示例4"></p>
+<p>可以看到右边上半部分的值是有意义的，将这一段中的点去掉就是 flag。</p>
+<h4 id="2-General-Info"><a href="#2-General-Info" class="headerlink" title="2. General Info"></a>2. General Info</h4><p>求主机名和 ip 地址</p>
+<p>直接用命令 <code>netscan</code> 即可找到 ip：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/10.png" srcset="/img/loading.gif" lazyload alt="示例1"></p>
+<p>主机名需要查询注册表 *，用 <code>hivelist</code>：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/11.png" srcset="/img/loading.gif" lazyload alt="示例2"></p>
+<p>找到其中最末尾的字为 SYSTEM 的行，复制它的 Virtual 的值（即为地址）</p>
+<p>然后使用命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">-o 地址 printkey -K ControlSet001\Control\ComputerName\ComputerName<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/12.png" srcset="/img/loading.gif" lazyload alt="示例3"></p>
+<p>就可以得到主机名。</p>
+<blockquote>
+<p><strong>注：</strong><br>注册表：是 Microsoft Windows 中的一个重要的数据库，用于存储系统和应用程序的设置信息。</p>
+</blockquote>
+<h4 id="3-Play-Time"><a href="#3-Play-Time" class="headerlink" title="3. Play Time"></a>3. Play Time</h4><p>找到 Rick 玩的游戏和游戏 ip</p>
+<p>要找到 Rick 的游戏，那就查看进程，用命令 <code>pslist</code>：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/13.png" srcset="/img/loading.gif" lazyload alt="示例1"></p>
+<p>可以看到有很多程序，记录下来名字直接拿去问 ai 哪个是游戏名：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/14.png" srcset="/img/loading.gif" lazyload alt="示例2"></p>
+<p>ai 给出的答案中，BiTorrent 实质上是一个客户端应用，不属于游戏：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/15.png" srcset="/img/loading.gif" lazyload alt="示例3"></p>
+<p>所以只有 LunarMS 是游戏，那就可以直接用 <code>netscan</code> 命令：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/16.png" srcset="/img/loading.gif" lazyload alt="示例4"></p>
+<p>192 的是主机 ip ，最右边的地址 77.102.199.102 才是游戏 ip。</p>
+<h4 id="4-Name-Game"><a href="#4-Name-Game" class="headerlink" title="4. Name Game"></a>4. Name Game</h4><p>要找登录到 Lunar 里的账户名</p>
+<p>这里需要用到 Lunar 的 pid ，在之前 <code>pslist</code> 里有：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/17.png" srcset="/img/loading.gif" lazyload alt="示例1"></p>
+<p>然后把内存中关于 lunar 的部分提取出来，用命令 <code>memdump</code>：</p>
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/18.png" srcset="/img/loading.gif" lazyload alt="示例2"></p>
+<p>然后就可以在指定的目录中找到被提取出来的 lunar 进程。</p>
+<p>要在指定目录中打开终端，然后就可以用 kali 自带的 strings 命令来查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">strings 708.dmp | grep Lunar-3 -C 10 *<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/19.png" srcset="/img/loading.gif" lazyload alt="示例3"></p>
+<p>Lunar-3 下面的字符串就是账号。</p>
+<blockquote>
+<p><strong>注：</strong><br><img src="/2026/07/14/Volatility%20%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81/20.png" srcset="/img/loading.gif" lazyload alt=" "></p>
+</blockquote>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_68012373/article/details/127419463">https://blog.csdn.net/m0_68012373/article/details/127419463</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Aluxian_/article/details/127064750">https://blog.csdn.net/Aluxian_/article/details/127064750</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014029795/article/details/116628984">https://blog.csdn.net/u014029795/article/details/116628984</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5f13ee20f5b0">https://www.jianshu.com/p/5f13ee20f5b0</a></li>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/13067?time__1311=mqmxnDBDuDcD2QCD/D0Y1GkCY444jhRG2iD&alichlgref=https://www.bing.com/">https://xz.aliyun.com/t/13067?time__1311=mqmxnDBDuDcD2QCD%2FD0Y1GkCY444jhRG2iD&amp;alichlgref=https%3A%2F%2Fwww.bing.com%2F</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Misc/" class="print-no-link">#Misc</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Volatility 内存取证工具使用笔记</div>
+      <div>https://blessing-heavenly.github.io/2026/07/14/Volatility 内存取证/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Seth</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/" title="Webshell工具的流量特征分析">
+                        <span class="hidden-mobile">Webshell工具的流量特征分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      凡是过往，皆为序章
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
