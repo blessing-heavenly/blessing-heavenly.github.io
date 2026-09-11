@@ -19,12 +19,12 @@
   <meta name="author" content="Seth">
   <meta name="keywords" content="">
   
-    <meta name="description" content="文件结构分析无后缀文件识别思路可以通过 kali 里的 file 命令查看： 1#!&#x2F;bin&#x2F;sh 1#!&#x2F;python   PNG头部（十六进制）：89 50 4E 47 0D 0A 1A 0A（ASCII码）：‰PNG 注：  89：用于检测传输系统是否支持8位的字符编码，用以减少将文本文件被错误的识别成PNG文件的机会，反之亦然。 50 4E 47：PNG每个字母对应的ASCII，让用户可以">
+    <meta name="description" content="文件结构分析一、无后缀文件识别思路可以通过 kali 里的 file 命令查看：  1#!&#x2F;bin&#x2F;sh 1#!&#x2F;python   二、PNG头部（十六进制）：89 50 4E 47 0D 0A 1A 0A（ASCII码）：‰PNG  注：  89：用于检测传输系统是否支持8位的字符编码，用以减少将文本文件被错误的识别成PNG文件的机会，反之亦然。 50 4E 47：PNG每个字母对应的ASCII">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文件结构分析 - 常见文件头与标识">
 <meta property="og:url" content="https://blessing-heavenly.github.io/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="学习经历分享">
-<meta property="og:description" content="文件结构分析无后缀文件识别思路可以通过 kali 里的 file 命令查看： 1#!&#x2F;bin&#x2F;sh 1#!&#x2F;python   PNG头部（十六进制）：89 50 4E 47 0D 0A 1A 0A（ASCII码）：‰PNG 注：  89：用于检测传输系统是否支持8位的字符编码，用以减少将文本文件被错误的识别成PNG文件的机会，反之亦然。 50 4E 47：PNG每个字母对应的ASCII，让用户可以">
+<meta property="og:description" content="文件结构分析一、无后缀文件识别思路可以通过 kali 里的 file 命令查看：  1#!&#x2F;bin&#x2F;sh 1#!&#x2F;python   二、PNG头部（十六进制）：89 50 4E 47 0D 0A 1A 0A（ASCII码）：‰PNG  注：  89：用于检测传输系统是否支持8位的字符编码，用以减少将文本文件被错误的识别成PNG文件的机会，反之亦然。 50 4E 47：PNG每个字母对应的ASCII">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%871.png">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%872.png">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://blessing-heavenly.github.io/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8710.png">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8711.png">
 <meta property="article:published_time" content="2025-07-14T07:31:00.000Z">
-<meta property="article:modified_time" content="2026-09-11T10:30:57.363Z">
+<meta property="article:modified_time" content="2026-09-11T11:03:28.165Z">
 <meta property="article:author" content="Seth">
 <meta property="article:tag" content="Misc">
 <meta name="twitter:card" content="summary_large_image">
@@ -397,13 +397,15 @@
             
               <div class="markdown-body">
                 
-                <h1 id="文件结构分析"><a href="#文件结构分析" class="headerlink" title="文件结构分析"></a>文件结构分析</h1><h2 id="无后缀文件识别思路"><a href="#无后缀文件识别思路" class="headerlink" title="无后缀文件识别思路"></a>无后缀文件识别思路</h2><p>可以通过 kali 里的 file 命令查看：<br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%871.png" srcset="/img/loading.gif" lazyload alt="如图，像这个就是 ext3 后缀文件"></p>
+                <h1 id="文件结构分析"><a href="#文件结构分析" class="headerlink" title="文件结构分析"></a>文件结构分析</h1><h2 id="一、无后缀文件识别思路"><a href="#一、无后缀文件识别思路" class="headerlink" title="一、无后缀文件识别思路"></a>一、无后缀文件识别思路</h2><p>可以通过 kali 里的 <code>file</code> 命令查看：</p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%871.png" srcset="/img/loading.gif" lazyload alt="ext3 后缀文件"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br></code></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/python</span><br></code></pre></td></tr></table></figure>
 
 
-<h2 id="PNG"><a href="#PNG" class="headerlink" title="PNG"></a>PNG</h2><p>头部（十六进制）：<code>89 50 4E 47 0D 0A 1A 0A</code><br>（ASCII码）：<code>‰PNG</code></p>
-<p>注：</p>
+<h2 id="二、PNG"><a href="#二、PNG" class="headerlink" title="二、PNG"></a>二、PNG</h2><p><strong>头部（十六进制）</strong>：<code>89 50 4E 47 0D 0A 1A 0A</code><br><strong>（ASCII码）</strong>：<code>‰PNG</code></p>
+<blockquote>
+<p><strong>注：</strong></p>
 <ul>
 <li><code>89</code>：用于检测传输系统是否支持8位的字符编码，用以减少将文本文件被错误的识别成PNG文件的机会，反之亦然。</li>
 <li><code>50 4E 47</code>：PNG每个字母对应的ASCII，让用户可以使用文本编辑器查看时，识别出是PNG文件</li>
@@ -411,6 +413,7 @@
 <li><code>1A</code>：在DOS命令行下，用于阻止文件显示的文件结束符</li>
 <li><code>0A</code>：Unix风格的换行符，用于Unix-DOS换行符的转换。</li>
 </ul>
+</blockquote>
 <h3 id="PNG-其他标识（ASCII）"><a href="#PNG-其他标识（ASCII）" class="headerlink" title="PNG 其他标识（ASCII）"></a>PNG 其他标识（ASCII）</h3><table>
 <thead>
 <tr>
@@ -562,7 +565,8 @@
 <td>最后一个数据块</td>
 </tr>
 </tbody></table>
-<h2 id="JPG"><a href="#JPG" class="headerlink" title="JPG"></a>JPG</h2><p>头部（十六进制）：<code>FF D8 FF</code><br>（ASCII）：<code>ÿØÿ</code></p>
+<hr>
+<h2 id="三、JPG"><a href="#三、JPG" class="headerlink" title="三、JPG"></a>三、JPG</h2><p><strong>头部（十六进制）</strong>：<code>FF D8 FF</code><br><strong>（ASCII）</strong>：<code>ÿØÿ</code></p>
 <h3 id="JPG-其他标识"><a href="#JPG-其他标识" class="headerlink" title="JPG 其他标识"></a>JPG 其他标识</h3><table>
 <thead>
 <tr>
@@ -632,7 +636,8 @@
 <td>图片结束</td>
 </tr>
 </tbody></table>
-<h2 id="BMP"><a href="#BMP" class="headerlink" title="BMP"></a>BMP</h2><p>头部（十六进制）：<code>42 4D</code><br>（ASCII）：<code>BM</code></p>
+<hr>
+<h2 id="四、BMP"><a href="#四、BMP" class="headerlink" title="四、BMP"></a>四、BMP</h2><p><strong>头部（十六进制）</strong>：<code>42 4D</code><br><strong>（ASCII）</strong>：<code>BM</code></p>
 <p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%872.png" srcset="/img/loading.gif" lazyload alt="BMP头部二进制参考图"></p>
 <h3 id="BMP-文件头结构"><a href="#BMP-文件头结构" class="headerlink" title="BMP 文件头结构"></a>BMP 文件头结构</h3><table>
 <thead>
@@ -670,24 +675,32 @@
 </tbody></table>
 <p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%873.png" srcset="/img/loading.gif" lazyload alt="BMP 位图信息头"></p>
 <h3 id="BMP-特性"><a href="#BMP-特性" class="headerlink" title="BMP 特性"></a>BMP 特性</h3><p>BMP 是按行绘制的，每行数据都需要为 4 的倍数，当像素数据不满足这个条件时，会自动填充相应字节的 0。</p>
-<h2 id="GIF"><a href="#GIF" class="headerlink" title="GIF"></a>GIF</h2><p>头部（十六进制）：</p>
+<hr>
+<h2 id="五、GIF"><a href="#五、GIF" class="headerlink" title="五、GIF"></a>五、GIF</h2><p><strong>头部（十六进制）</strong>：</p>
 <ul>
 <li><code>47 49 46 38 39 61</code>（89A）</li>
 <li><code>47 49 46 38 37 61</code>（87A）</li>
 </ul>
-<p>（ASCII）：<code>GIF89a</code></p>
-<p>注：</p>
+<p><strong>（ASCII）</strong>：<code>GIF89a</code></p>
+<blockquote>
+<p><strong>注：</strong></p>
 <ul>
 <li><code>47 49 46</code>：gif文件标识</li>
 <li><code>38 39/37 61</code>：gif版本号，87A为1987年5月版本，89A为1989年7月版本</li>
 </ul>
+</blockquote>
 <h3 id="GIF-结构"><a href="#GIF-结构" class="headerlink" title="GIF 结构"></a>GIF 结构</h3><p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%874.png" srcset="/img/loading.gif" lazyload alt="逻辑屏幕标识符（十六进制）"></p>
-<p>全局颜色列表：根据逻辑屏幕标识符的描述，全局颜色列表描述的是不同索引所对应的颜色值。同时全局颜色列表必须紧跟在逻辑屏幕标识符之后。<br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%875.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
-<p>图像标识符：便是具体的图像数据开始的位置。<br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%876.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
-<p>图形控制扩展：用于说明对于一些图形图像的显示以及渲染的简单控制方式。<br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%877.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
-<p>应用程序扩展：允许使用者对图片进行一些自定义的描述和说明<br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%878.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
-<p>图像结尾（十六进制）：<code>00 3B</code></p>
-<h2 id="ZIP"><a href="#ZIP" class="headerlink" title="ZIP"></a>ZIP</h2><p>数据存储区头部（十六进制）：<code>50 4B 03 04</code><br>（ASCII）：<code>PK..</code></p>
+<p><strong>全局颜色列表</strong>：根据逻辑屏幕标识符的描述，全局颜色列表描述的是不同索引所对应的颜色值。同时全局颜色列表必须紧跟在逻辑屏幕标识符之后。</p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%875.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
+<p><strong>图像标识符</strong>：便是具体的图像数据开始的位置。</p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%876.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
+<p><strong>图形控制扩展</strong>：用于说明对于一些图形图像的显示以及渲染的简单控制方式。</p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%877.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
+<p><strong>应用程序扩展</strong>：允许使用者对图片进行一些自定义的描述和说明</p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%878.png" srcset="/img/loading.gif" lazyload alt="参考图"></p>
+<p><strong>图像结尾（十六进制）</strong>：<code>00 3B</code></p>
+<hr>
+<h2 id="六、ZIP"><a href="#六、ZIP" class="headerlink" title="六、ZIP"></a>六、ZIP</h2><p><strong>数据存储区头部（十六进制）</strong>：<code>50 4B 03 04</code><br><strong>（ASCII）</strong>：<code>PK..</code></p>
 <p>其后：</p>
 <ul>
 <li>解压缩版本：<code>xx xx</code></li>
@@ -695,25 +708,34 @@
 <li>压缩方式：<code>xx xx</code></li>
 <li>修改时间日期：<code>xx xx xx xx</code></li>
 </ul>
-<p>中心目录区头部（十六进制）：<code>50 4B 01 02</code><br>其后与数据存储区相似，值得注意的是zip是否加密由该区加密标志决定。<br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%879.png" srcset="/img/loading.gif" lazyload alt="字节对应值"></p>
-<p>目录结束标识头部（十六进制）：<code>50 4B 05 06</code><br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8710.png" srcset="/img/loading.gif" lazyload alt="字节对应值"></p>
-<h2 id="RAR"><a href="#RAR" class="headerlink" title="RAR"></a>RAR</h2><p>头部（十六进制）：<code>52 61 72 21 1A 07 00</code><br>（ASCII）：<code>Rar！</code><br><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8711.png" srcset="/img/loading.gif" lazyload alt="rar头部参考图"></p>
-<p>注：</p>
+<p><strong>中心目录区头部（十六进制）</strong>：<code>50 4B 01 02</code><br>其后与数据存储区相似，值得注意的是zip是否加密由该区加密标志决定。</p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%879.png" srcset="/img/loading.gif" lazyload alt="字节对应值"></p>
+<p><strong>目录结束标识头部（十六进制）</strong>：<code>50 4B 05 06</code></p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8710.png" srcset="/img/loading.gif" lazyload alt="字节对应值"></p>
+<hr>
+<h2 id="七、RAR"><a href="#七、RAR" class="headerlink" title="七、RAR"></a>七、RAR</h2><p><strong>头部（十六进制）</strong>：<code>52 61 72 21 1A 07 00</code><br><strong>（ASCII）</strong>：<code>Rar！</code></p>
+<p><img src="/2025/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8711.png" srcset="/img/loading.gif" lazyload alt="rar头部参考图"></p>
+<blockquote>
+<p><strong>注：</strong></p>
 <ul>
 <li><code>52 61</code> 为HEAD_CRC，两个字节，每一块均从HEAD_CRC开始，所有的RAR都以 <code>52 61</code> 开头</li>
 <li><code>72</code> 为块类型（HEAD_TYPE）占一个字节，所有文件都如此</li>
 <li><code>21 1A</code> 为块标记（HEAD_FLAGS）占两个字节</li>
 <li><code>07 00</code> 表示块的大小，即 <code>52 61 72 21 1A 07 00</code>（标记块）共占7个字节</li>
 </ul>
-<p>尾部（十六进制）：<code>C4 3D 7B 00 40 07 00</code></p>
-<p>注：</p>
+</blockquote>
+<p><strong>尾部（十六进制）</strong>：<code>C4 3D 7B 00 40 07 00</code></p>
+<blockquote>
+<p><strong>注：</strong></p>
 <ul>
 <li><code>C4 3D</code>：HEAD_CRC，2字节，从HEAD_TYPE到HEAD_SIZE的crc校验值</li>
 <li><code>7B</code>：HEAD_TYPE，1字节，表示该块是结尾块</li>
 <li><code>00 40</code>：HEAD_FLAGS，2字节，位标记</li>
 <li><code>07 00</code>：HEAD_SIZE，2字节，块大小</li>
 </ul>
-<h2 id="其他常见文件头"><a href="#其他常见文件头" class="headerlink" title="其他常见文件头"></a>其他常见文件头</h2><table>
+</blockquote>
+<hr>
+<h2 id="八、其他常见文件头"><a href="#八、其他常见文件头" class="headerlink" title="八、其他常见文件头"></a>八、其他常见文件头</h2><table>
 <thead>
 <tr>
 <th>文件类型</th>

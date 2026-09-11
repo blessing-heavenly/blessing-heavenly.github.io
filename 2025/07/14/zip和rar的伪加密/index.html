@@ -19,18 +19,18 @@
   <meta name="author" content="Seth">
   <meta name="keywords" content="">
   
-    <meta name="description" content="压缩包伪加密Zip 伪加密压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记    Rar 伪加密一般用 win 打开时会显示文件头已损坏RAR 的第 24 个字节。该字节尾数为 4 表示加密，0 表示无加密或 010 Editor 显示的文件结构中的 ubyte PASSWORD_ENCRYPTED 字">
+    <meta name="description" content="压缩包伪加密一、ZIP 伪加密压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记 压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记   二、RAR 伪加密一般用 win 打开时会显示文件头已损坏。 方法一：修改第 24 个字节修改RAR 的第 24 个字节，该字节尾数为 4 表示加密，0 表示无加密。 或 010 Editor 显示的文件结构中的 ub">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zip和rar的伪加密">
 <meta property="og:url" content="https://blessing-heavenly.github.io/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/index.html">
 <meta property="og:site_name" content="学习经历分享">
-<meta property="og:description" content="压缩包伪加密Zip 伪加密压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记    Rar 伪加密一般用 win 打开时会显示文件头已损坏RAR 的第 24 个字节。该字节尾数为 4 表示加密，0 表示无加密或 010 Editor 显示的文件结构中的 ubyte PASSWORD_ENCRYPTED 字">
+<meta property="og:description" content="压缩包伪加密一、ZIP 伪加密压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记 压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记   二、RAR 伪加密一般用 win 打开时会显示文件头已损坏。 方法一：修改第 24 个字节修改RAR 的第 24 个字节，该字节尾数为 4 表示加密，0 表示无加密。 或 010 Editor 显示的文件结构中的 ub">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/zip.png">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar1.png">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar2.png">
 <meta property="article:published_time" content="2025-07-14T06:56:48.000Z">
-<meta property="article:modified_time" content="2026-09-11T10:32:07.980Z">
+<meta property="article:modified_time" content="2026-09-11T11:04:38.953Z">
 <meta property="article:author" content="Seth">
 <meta property="article:tag" content="Misc">
 <meta name="twitter:card" content="summary_large_image">
@@ -330,7 +330,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          281 字
+          312 字
         
       </span>
     
@@ -389,12 +389,17 @@
             
               <div class="markdown-body">
                 
-                <h1 id="压缩包伪加密"><a href="#压缩包伪加密" class="headerlink" title="压缩包伪加密"></a>压缩包伪加密</h1><h2 id="Zip-伪加密"><a href="#Zip-伪加密" class="headerlink" title="Zip 伪加密"></a>Zip 伪加密</h2><p>压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记<br>压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记  </p>
-<p><img src="/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/zip.png" srcset="/img/loading.gif" lazyload alt="参考图片"></p>
-<h2 id="Rar-伪加密"><a href="#Rar-伪加密" class="headerlink" title="Rar 伪加密"></a>Rar 伪加密</h2><p>一般用 win 打开时会显示文件头已损坏<br>RAR 的第 24 个字节。该字节尾数为 4 表示加密，0 表示无加密<br>或 010 Editor 显示的文件结构中的 <code>ubyte PASSWORD_ENCRYPTED</code> 字段，修改其字段为 1 即可实现 RAR 伪加密。  </p>
-<p><img src="/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar1.png" srcset="/img/loading.gif" lazyload alt="参考图片"></p>
-<p>或者修改第 11 个字节，尾数为 4 表示加密，0 表示无加密<br>也就是 010 Editor 显示的文件结构中的 <code>ubyte BLOCK_HEADERS_ENCRYPTED</code> 字段的值。修改为 1 即可造成 RAR 伪加密。  </p>
-<p><img src="/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar2.png" srcset="/img/loading.gif" lazyload alt="参考图片"></p>
+                <h1 id="压缩包伪加密"><a href="#压缩包伪加密" class="headerlink" title="压缩包伪加密"></a>压缩包伪加密</h1><h2 id="一、ZIP-伪加密"><a href="#一、ZIP-伪加密" class="headerlink" title="一、ZIP 伪加密"></a>一、ZIP 伪加密</h2><p><strong>压缩源文件数据区</strong>：<code>50 4B 03 04 xx xx</code> 全局方位标记</p>
+<p><strong>压缩源文件目录区</strong>：<code>50 4B 01 02 xx xx xx xx</code> 全局方位标记</p>
+<p><img src="/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/zip.png" srcset="/img/loading.gif" lazyload alt="zip伪加密参考图"></p>
+<hr>
+<h2 id="二、RAR-伪加密"><a href="#二、RAR-伪加密" class="headerlink" title="二、RAR 伪加密"></a>二、RAR 伪加密</h2><p>一般用 win 打开时会显示文件头已损坏。</p>
+<h3 id="方法一：修改第-24-个字节"><a href="#方法一：修改第-24-个字节" class="headerlink" title="方法一：修改第 24 个字节"></a>方法一：修改第 24 个字节</h3><p>修改RAR 的第 24 个字节，该字节尾数为 4 表示加密，0 表示无加密。</p>
+<p>或 010 Editor 显示的文件结构中的 <code>ubyte PASSWORD_ENCRYPTED</code> 字段，修改其字段为 1 即可实现 RAR 伪加密。</p>
+<p><img src="/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar1.png" srcset="/img/loading.gif" lazyload alt="rar伪加密参考图1"></p>
+<h3 id="方法二：修改第-11-个字节"><a href="#方法二：修改第-11-个字节" class="headerlink" title="方法二：修改第 11 个字节"></a>方法二：修改第 11 个字节</h3><p>修改第 11 个字节，尾数为 4 表示加密，0 表示无加密。</p>
+<p>也就是 010 Editor 显示的文件结构中的 <code>ubyte BLOCK_HEADERS_ENCRYPTED</code> 字段的值。修改为 1 即可造成 RAR 伪加密。</p>
+<p><img src="/2025/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar2.png" srcset="/img/loading.gif" lazyload alt="rar伪加密参考图2"></p>
 
                 
               </div>

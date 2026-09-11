@@ -19,12 +19,12 @@
   <meta name="author" content="Seth">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Webshell工具的流量特征分析一句话木马原理利用文件上传漏洞，往目标网站中上传一句话木马，然后黑客就可以在本地通过 中国菜刀 chopper.exe 获取和控制整个网站目录。 基础形式php：&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;asp： &lt;%eval request (&quot;pass&quot;)%&gt;aspx：&lt;%@">
+    <meta name="description" content="Webshell工具的流量特征分析一、一句话木马原理利用文件上传漏洞，往目标网站中上传一句话木马，然后黑客就可以在本地通过 中国菜刀 chopper.exe 获取和控制整个网站目录。 基础形式php：&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;asp： &lt;%eval request (&quot;pass&quot;)%&gt;aspx：&lt;%">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Webshell工具的流量特征分析">
 <meta property="og:url" content="https://blessing-heavenly.github.io/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="学习经历分享">
-<meta property="og:description" content="Webshell工具的流量特征分析一句话木马原理利用文件上传漏洞，往目标网站中上传一句话木马，然后黑客就可以在本地通过 中国菜刀 chopper.exe 获取和控制整个网站目录。 基础形式php：&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;asp： &lt;%eval request (&quot;pass&quot;)%&gt;aspx：&lt;%@">
+<meta property="og:description" content="Webshell工具的流量特征分析一、一句话木马原理利用文件上传漏洞，往目标网站中上传一句话木马，然后黑客就可以在本地通过 中国菜刀 chopper.exe 获取和控制整个网站目录。 基础形式php：&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;asp： &lt;%eval request (&quot;pass&quot;)%&gt;aspx：&lt;%">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/1.png">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/2.png">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/10.png">
 <meta property="og:image" content="https://blessing-heavenly.github.io/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/11.png">
 <meta property="article:published_time" content="2026-07-11T10:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-11T10:51:24.152Z">
+<meta property="article:modified_time" content="2026-09-11T11:05:16.248Z">
 <meta property="article:author" content="Seth">
 <meta property="article:tag" content="Misc">
 <meta name="twitter:card" content="summary_large_image">
@@ -338,7 +338,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.1k 字
+          4.2k 字
         
       </span>
     
@@ -397,7 +397,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Webshell工具的流量特征分析"><a href="#Webshell工具的流量特征分析" class="headerlink" title="Webshell工具的流量特征分析"></a>Webshell工具的流量特征分析</h1><h2 id="一句话木马"><a href="#一句话木马" class="headerlink" title="一句话木马"></a>一句话木马</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>利用文件上传漏洞，往目标网站中上传一句话木马，然后黑客就可以在本地通过 中国菜刀 chopper.exe 获取和控制整个网站目录。</p>
+                <h1 id="Webshell工具的流量特征分析"><a href="#Webshell工具的流量特征分析" class="headerlink" title="Webshell工具的流量特征分析"></a>Webshell工具的流量特征分析</h1><h2 id="一、一句话木马"><a href="#一、一句话木马" class="headerlink" title="一、一句话木马"></a>一、一句话木马</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>利用文件上传漏洞，往目标网站中上传一句话木马，然后黑客就可以在本地通过 中国菜刀 chopper.exe 获取和控制整个网站目录。</p>
 <h3 id="基础形式"><a href="#基础形式" class="headerlink" title="基础形式"></a>基础形式</h3><p>php：<code>&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;</code><br>asp： <code>&lt;%eval request (&quot;pass&quot;)%&gt;</code><br>aspx：<code>&lt;%@ Page Language=&quot;Jscript&quot;%&gt;   &lt;%eval(Request.Item[&quot;pass&quot;],&quot;unsafe&quot;);%&gt;</code></p>
 <ul>
 <li><code>@</code>表示后面即使执行错误，也不报错。</li>
@@ -411,7 +411,7 @@
 </ol>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39190897/article/details/86772765">https://blog.csdn.net/weixin_39190897/article/details/86772765</a></p>
 <hr>
-<h2 id="中国菜刀"><a href="#中国菜刀" class="headerlink" title="中国菜刀"></a>中国菜刀</h2><p>使用量最大，适用范围最广的WebShell客户端。</p>
+<h2 id="二、中国菜刀"><a href="#二、中国菜刀" class="headerlink" title="二、中国菜刀"></a>二、中国菜刀</h2><p>使用量最大，适用范围最广的WebShell客户端。</p>
 <h3 id="流量特征"><a href="#流量特征" class="headerlink" title="流量特征"></a>流量特征</h3><ol>
 <li>请求包中：ua 头为百度，火狐</li>
 <li>请求体中存在 <code>eval *</code>，<code>assert</code>，<code>base64_decode *</code> 等特征字符</li>
@@ -419,7 +419,7 @@
 </ol>
 <p><img src="/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/1.png" srcset="/img/loading.gif" lazyload alt="菜刀流量示例"></p>
 <blockquote>
-<p>注：</p>
+<p><strong>注：</strong></p>
 <ul>
 <li><code>eval</code> 函数：用于执行传递的攻击 payload。<br>有少数时候eval方法会被assert方法替代。</li>
 <li><code>( base64_decode($_POST[z0]) )</code>：将攻击 payload 进行 Base64 解码，因为菜刀默认攻击载荷使用 Base64 编码，以避免被检测<br><code>$_POST</code>也会被<code>$_GET</code>、<code>$_REQUEST</code>替代。</li>
@@ -436,7 +436,7 @@
 <li>ASP.NET:  <code>&lt;%@ Page Language= &quot;Jscript&quot;%&gt;&lt;%eval(Request.Item[&quot;caidao&quot;],&quot;unsafe&quot;);%&gt;</code></li>
 </ul>
 <hr>
-<h2 id="蚁剑"><a href="#蚁剑" class="headerlink" title="蚁剑"></a>蚁剑</h2><p>一种常用的WebShell客户端。</p>
+<h2 id="三、蚁剑"><a href="#三、蚁剑" class="headerlink" title="三、蚁剑"></a>三、蚁剑</h2><p>一种常用的WebShell客户端。</p>
 <h3 id="流量特征-1"><a href="#流量特征-1" class="headerlink" title="流量特征"></a>流量特征</h3><p>每一句话中普遍存在。</p>
 <p><strong>请求体</strong></p>
 <p>开头（进行URL解码后）：@ini_set(“display_errors”, “0”);@set_time_limit(0)</p>
@@ -462,7 +462,7 @@
 </ul>
 <p><img src="/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/4.png" srcset="/img/loading.gif" lazyload alt="蚁剑payload示例"></p>
 <hr>
-<h2 id="冰蝎"><a href="#冰蝎" class="headerlink" title="冰蝎"></a>冰蝎</h2><p>流量加密客户端。</p>
+<h2 id="四、冰蝎"><a href="#四、冰蝎" class="headerlink" title="四、冰蝎"></a>四、冰蝎</h2><p>流量加密客户端。</p>
 <h3 id="总特征"><a href="#总特征" class="headerlink" title="总特征"></a>总特征</h3><ul>
 <li>一个 ip 的请求头中的 user-agent 在频繁变换，就可能是冰蝎。</li>
 <li>数据包总是伴随着大量的 <code>content-type：application....</code> , 无论 GET 还是POST，请求的http中，content-type 为 <code>application/octet-stream</code>；</li>
@@ -508,7 +508,7 @@
 </ul>
 <p><img src="/2026/07/11/Webshell%E5%B7%A5%E5%85%B7%E7%9A%84%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90/10.png" srcset="/img/loading.gif" lazyload alt="冰蝎4.0 payload示例3"></p>
 <hr>
-<h2 id="哥斯拉"><a href="#哥斯拉" class="headerlink" title="哥斯拉"></a>哥斯拉</h2><h3 id="流量特征-2"><a href="#流量特征-2" class="headerlink" title="流量特征"></a>流量特征</h3><ol>
+<h2 id="五、哥斯拉"><a href="#五、哥斯拉" class="headerlink" title="五、哥斯拉"></a>五、哥斯拉</h2><h3 id="流量特征-2"><a href="#流量特征-2" class="headerlink" title="流量特征"></a>流量特征</h3><ol>
 <li>User-Agent字段（弱特征）：<br>默认的情况会暴露使用的 jdk 信息。<br>（但哥斯拉支持自定义HTTP头部，这个默认特征是容易去除）</li>
 <li>Accept字段（弱特征）：<br><code>Accept:text/html, image/gif, image/jpeg, *; q=.2, /; q=.2</code>。<br>（这个也是默认情况且可修改，只能作为辅助检测的特征。）</li>
 <li>所有响应：<br><code>Cache-Control: no-store, no-cache, must-revalidate,</code></li>
