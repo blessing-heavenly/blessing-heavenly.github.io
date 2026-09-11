@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>BASE家族编码总结</title>
+      <link href="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/"/>
+      <url>/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/</url>
+      
+        <content type="html"><![CDATA[<h1 id="BASE家族"><a href="#BASE家族" class="headerlink" title="BASE家族"></a>BASE家族</h1><p><strong>BASE16</strong>：<code>0~9+A~F</code>。</p><p><strong>BASE32</strong>：<code>A~Z+2~7</code>，占位符“&#x3D;”。</p><p><strong>BASE36</strong>：<code>0~9+A~Z</code> 或 <code>0~9+a~z</code>。</p><p><strong>BASE58</strong>：<code>1~9+A~Z</code>（除 I、O）+<code>a~z</code>（除 l）。</p><p><strong>BASE62</strong>：<code>0~9+A~Z+a~z</code>。</p><p><strong>BASE64</strong>：</p><p>特征：<code>0~9+A~Z+a~z</code> + <code>+</code> + <code>/</code> + <code>=</code>。</p><p>本质：它是一种基于 64 个可打印字符来表示二进制数据的表示方法。由于 2^6&#x3D;64，所以每 6 个比特为一个单元，对应某个可打印字符。3 个字节有 24 个比特，对应于 4 个 Base64 单元，即 3 个字节可由 4 个可打印字符来表示。</p><p>目的：用以解决各系统以及传输协议中二进制不兼容的问题。</p><p>用于：处理文本数据的场合，表示、传输、存储一些二进制数据，包括MIME的电子邮件及XML的一些复杂数据。</p><p>编码规则：<br>假如要编码一个非二进制字符，Base64的编码规则是：先把这个字符处理成二进制，然后每连续6个bit计算其十进制，得出十进制的值之后，再根据Base64对照表找到对应的字符。</p><p>编码方式：</p><ol><li>将原始数据每三个字节作为一组，每个字节是8个bit，一共是 24 个 bit</li><li>将 24 个 bit 分为四组，每组 6 个 bit</li><li>有不足六位的情况，加补零凑够六位，同时凑出来的位数是 8 的倍数，不然就加特殊的六位符号 “ &#x3D; ” 。<br>此时，原始数据的3个字节变成4个字节，增大了将近30%<br>即 bit 不为 6 或 8 的倍数补 0，原始数据不为 3 的倍数补 “ &#x3D; ”。</li><li>根据Base64码表得到扩展后每个字节的对应符号</li></ol><p>例：原文 man<br><img src="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/1.png" alt="示例图片"></p><p>字节的位总数不为 6 的倍数以及原文不为 3 的倍数：<br><img src="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/2.png" alt="示例图片"></p><ul><li>要凑成8的倍数，是因为base64主要用于加密后的数据传送，而在传送机制中都认为传送的最小单位是按照字节算的，所以不能出现不是位总数不是8的倍数的情况，</li><li>“ &#x3D; “ 的意义：base64 编码过程以 3 个为一组，当原文不足三个时即在 base64 中补充 “ &#x3D; “</li><li>只用凑齐满足条件的最小的 6 和 8 的倍数即可，不用补 0 到凑够 24 个 bit 。</li></ul><p>base64 码表：<br><img src="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/3.png" alt="示例图片"></p><p>base64 编码（Python）：<br>python中的 base64 模块：</p><ul><li><code>base64.b64encode()</code> 将 bytes 类型数据进行base64编码，返回编码后的bytes类型</li><li><code>encode(encoding)</code> 将字符串编码为指定编码（如 UTF-8、ASCII 等）的字节序列。它接受一个编码参数，指定要使用的字符编码方式，然后返回对应编码的字节序列（bytes 对象）</li><li><code>decode(encoding)</code> 将字节序列解码为字符串，根据指定的编码方式将字节序列转换为字符串形式。它接受一个编码参数，指定要使用的字符编码方式，然后返回解码后的字符串。</li><li><code>base64.b64decode()</code> 将base64编码的 bytes 类型进行解码，返回解码后的 bytes 类型</li><li><code>encodestring</code> 和 <code>decodestring</code>，专门用来编码和解码字符串</li><li><code>urlsafe_b64encode</code> 和 <code>urlsafe_b64decode</code>，专门对url进行Base64编解码，实际上也是调用的前一组函数</li></ul><p>注：</p><ul><li>使用库加密时，需要同时用到 encode 和 decode 函数，先使用 encode 将原始数据转换成指定编码的字节，decode 则是将 encode 转换后的字节按照指定编码再转换成加密字符串。</li><li>但使用库解密时，只需用到 decode 函数，此时 decode 函数用于解密，将 base64.b64decode 函数解码后的字节序列按指定编码转换成解密字符。</li></ul><p>base64 通过库加密解密代码：<br><img src="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/4.png" alt="库加密代码"></p><p>base64 不使用库加解密代码：<br><img src="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/5-1.png" alt="不用库加解密代码-1"><br><img src="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/5-2.png" alt="不用库加解密代码-2"><br><img src="/2024/07/23/base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81%E6%80%BB%E7%BB%93/5-3.png" alt="不用库加解密代码-3"></p><p><strong>BASE85</strong>：将四字节二进制数组成 32 位的数，然后转换为 85 进制，最后每一位加上32转为字符，无显著特征。</p><p><strong>BASE91</strong>：<code>0~9+A~Z+a~z</code> + <code>!</code> + <code>#</code> + <code>$</code> + <code>%</code> + <code>&amp;</code> + <code>(</code> + <code>)</code> + <code>*</code> + <code>+</code> + <code>,</code> + <code>.</code> + <code>/</code> + <code>:</code> + <code>;</code> + <code>&lt;</code> + <code>=</code> + <code>&gt;</code> + <code>?</code> + <code>@</code> + <code>[</code> + <code>]</code> + <code>^</code> + <code>_</code> + <code>`</code> + <code>{</code> + <code>|</code> + <code>}</code> + <code>~</code></p><p><strong>BASE92</strong>：相较 BASE91 多“~”。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Misc </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>文件结构分析 - 常见文件头与标识</title>
+      <link href="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/"/>
+      <url>/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</url>
+      
+        <content type="html"><![CDATA[<h1 id="文件结构分析"><a href="#文件结构分析" class="headerlink" title="文件结构分析"></a>文件结构分析</h1><h2 id="无后缀文件识别思路"><a href="#无后缀文件识别思路" class="headerlink" title="无后缀文件识别思路"></a>无后缀文件识别思路</h2><p>可以通过 kali 里的 file 命令查看：<br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%871.png" alt="如图，像这个就是 ext3 后缀文件"></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br></code></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/python</span><br></code></pre></td></tr></table></figure><h2 id="PNG"><a href="#PNG" class="headerlink" title="PNG"></a>PNG</h2><p>头部（十六进制）：<code>89 50 4E 47 0D 0A 1A 0A</code><br>（ASCII码）：<code>‰PNG</code></p><p>注：</p><ul><li><code>89</code>：用于检测传输系统是否支持8位的字符编码，用以减少将文本文件被错误的识别成PNG文件的机会，反之亦然。</li><li><code>50 4E 47</code>：PNG每个字母对应的ASCII，让用户可以使用文本编辑器查看时，识别出是PNG文件</li><li><code>0D 0A</code>：DOS风格的换行符，用于DOS-Unix数据的换行符转换</li><li><code>1A</code>：在DOS命令行下，用于阻止文件显示的文件结束符</li><li><code>0A</code>：Unix风格的换行符，用于Unix-DOS换行符的转换。</li></ul><h3 id="PNG-其他标识（ASCII）"><a href="#PNG-其他标识（ASCII）" class="headerlink" title="PNG 其他标识（ASCII）"></a>PNG 其他标识（ASCII）</h3><table><thead><tr><th>数据块符号</th><th>数据块名称</th><th>多数据块</th><th>可选否</th><th>位置限制</th></tr></thead><tbody><tr><td>IHDR</td><td>文件头数据块</td><td>否</td><td>否</td><td>第一块</td></tr><tr><td>cHRM</td><td>基色和白色点数据块</td><td>否</td><td>是</td><td>在PLTE和IDAT之前</td></tr><tr><td>gAMA</td><td>图像γ数据块</td><td>否</td><td>是</td><td>在PLTE和IDAT之前</td></tr><tr><td>sBIT</td><td>样本有效位数据块</td><td>否</td><td>是</td><td>在PLTE和IDAT之前</td></tr><tr><td>PLTE</td><td>调色板数据块</td><td>否</td><td>是</td><td>在IDAT之前</td></tr><tr><td>bKGD</td><td>背景颜色数据块</td><td>否</td><td>是</td><td>在PLTE之后IDAT之前</td></tr><tr><td>hIST</td><td>图像直方图数据块</td><td>否</td><td>是</td><td>在PLTE之后IDAT之前</td></tr><tr><td>tRNS</td><td>图像透明数据块</td><td>否</td><td>是</td><td>在PLTE之后IDAT之前</td></tr><tr><td>oFFs</td><td>(专用公共数据块)</td><td>否</td><td>是</td><td>在IDAT之前</td></tr><tr><td>pHYs</td><td>物理像素尺寸数据块</td><td>否</td><td>是</td><td>在IDAT之前</td></tr><tr><td>sCAL</td><td>(专用公共数据块)</td><td>否</td><td>是</td><td>在IDAT之前</td></tr><tr><td>IDAT</td><td>图像数据块</td><td>是</td><td>否</td><td>与其他IDAT连续</td></tr><tr><td>tIME</td><td>图像最后修改时间数据块</td><td>否</td><td>是</td><td>无限制</td></tr><tr><td>tEXt</td><td>文本信息数据块</td><td>是</td><td>是</td><td>无限制</td></tr><tr><td>zTXt</td><td>压缩文本数据块</td><td>是</td><td>是</td><td>无限制</td></tr><tr><td>fRAc</td><td>(专用公共数据块)</td><td>是</td><td>是</td><td>无限制</td></tr><tr><td>gIFg</td><td>(专用公共数据块)</td><td>是</td><td>是</td><td>无限制</td></tr><tr><td>gIFt</td><td>(专用公共数据块)</td><td>是</td><td>是</td><td>无限制</td></tr><tr><td>gIFx</td><td>(专用公共数据块)</td><td>是</td><td>是</td><td>无限制</td></tr><tr><td>IEND</td><td>图像结束数据</td><td>否</td><td>否</td><td>最后一个数据块</td></tr></tbody></table><h2 id="JPG"><a href="#JPG" class="headerlink" title="JPG"></a>JPG</h2><p>头部（十六进制）：<code>FF D8 FF</code><br>（ASCII）：<code>ÿØÿ</code></p><h3 id="JPG-其他标识"><a href="#JPG-其他标识" class="headerlink" title="JPG 其他标识"></a>JPG 其他标识</h3><table><thead><tr><th>标识</th><th>十六进制</th><th>说明</th></tr></thead><tbody><tr><td>SOI</td><td>FF D8</td><td>图片起始</td></tr><tr><td>APP0</td><td>FF E0</td><td>标记号</td></tr><tr><td>APPn</td><td>FF EN</td><td>应用程序保留标记n(n&#x3D;1~15)</td></tr><tr><td>JEIF</td><td>JFIF</td><td>JFIF标识</td></tr><tr><td>VERSION</td><td>-</td><td>版本号</td></tr><tr><td>ATTRIBUTION</td><td>-</td><td>长宽、DPI等信息</td></tr><tr><td>DQT</td><td>FF DB</td><td>Define Quantization Table，定义量化表</td></tr><tr><td>SOF0</td><td>FF C0</td><td>Start of Frame，帧图像开始</td></tr><tr><td>DHT</td><td>FF C4</td><td>Define Huffman Table，定义哈夫曼表</td></tr><tr><td>DRI</td><td>FF DD</td><td>定义差分编码累计复位的间隔</td></tr><tr><td>SOS</td><td>FF DA</td><td>Start of Scan，扫描开始 12字节</td></tr><tr><td>EOI</td><td>FF D9</td><td>图片结束</td></tr></tbody></table><h2 id="BMP"><a href="#BMP" class="headerlink" title="BMP"></a>BMP</h2><p>头部（十六进制）：<code>42 4D</code><br>（ASCII）：<code>BM</code></p><p><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%872.png" alt="BMP头部二进制参考图"></p><h3 id="BMP-文件头结构"><a href="#BMP-文件头结构" class="headerlink" title="BMP 文件头结构"></a>BMP 文件头结构</h3><table><thead><tr><th>字段</th><th>字节数</th><th>说明</th></tr></thead><tbody><tr><td>bfType</td><td>2字节</td><td>文件类型</td></tr><tr><td>bfSize</td><td>4字节</td><td>文件大小</td></tr><tr><td>bfReserved1</td><td>2字节</td><td>保留，必须设置为0</td></tr><tr><td>bfReserved2</td><td>2字节</td><td>保留，必须设置为0</td></tr><tr><td>bfOffBits</td><td>4字节</td><td>从头到位图数据的偏移</td></tr></tbody></table><p><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%873.png" alt="BMP 位图信息头"></p><h3 id="BMP-特性"><a href="#BMP-特性" class="headerlink" title="BMP 特性"></a>BMP 特性</h3><p>BMP 是按行绘制的，每行数据都需要为 4 的倍数，当像素数据不满足这个条件时，会自动填充相应字节的 0。</p><h2 id="GIF"><a href="#GIF" class="headerlink" title="GIF"></a>GIF</h2><p>头部（十六进制）：</p><ul><li><code>47 49 46 38 39 61</code>（89A）</li><li><code>47 49 46 38 37 61</code>（87A）</li></ul><p>（ASCII）：<code>GIF89a</code></p><p>注：</p><ul><li><code>47 49 46</code>：gif文件标识</li><li><code>38 39/37 61</code>：gif版本号，87A为1987年5月版本，89A为1989年7月版本</li></ul><h3 id="GIF-结构"><a href="#GIF-结构" class="headerlink" title="GIF 结构"></a>GIF 结构</h3><p><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%874.png" alt="逻辑屏幕标识符（十六进制）"></p><p>全局颜色列表：根据逻辑屏幕标识符的描述，全局颜色列表描述的是不同索引所对应的颜色值。同时全局颜色列表必须紧跟在逻辑屏幕标识符之后。<br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%875.png" alt="参考图"></p><p>图像标识符：便是具体的图像数据开始的位置。<br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%876.png" alt="参考图"></p><p>图形控制扩展：用于说明对于一些图形图像的显示以及渲染的简单控制方式。<br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%877.png" alt="参考图"></p><p>应用程序扩展：允许使用者对图片进行一些自定义的描述和说明<br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%878.png" alt="参考图"></p><p>图像结尾（十六进制）：<code>00 3B</code></p><h2 id="ZIP"><a href="#ZIP" class="headerlink" title="ZIP"></a>ZIP</h2><p>数据存储区头部（十六进制）：<code>50 4B 03 04</code><br>（ASCII）：<code>PK..</code></p><p>其后：</p><ul><li>解压缩版本：<code>xx xx</code></li><li>全局方位标记（加密标志）：<code>0x 00</code>（x偶数未加密，奇数加密）</li><li>压缩方式：<code>xx xx</code></li><li>修改时间日期：<code>xx xx xx xx</code></li></ul><p>中心目录区头部（十六进制）：<code>50 4B 01 02</code><br>其后与数据存储区相似，值得注意的是zip是否加密由该区加密标志决定。<br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%879.png" alt="字节对应值"></p><p>目录结束标识头部（十六进制）：<code>50 4B 05 06</code><br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8710.png" alt="字节对应值"></p><h2 id="RAR"><a href="#RAR" class="headerlink" title="RAR"></a>RAR</h2><p>头部（十六进制）：<code>52 61 72 21 1A 07 00</code><br>（ASCII）：<code>Rar！</code><br><img src="/2024/07/14/%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/%E5%8F%82%E8%80%83%E5%9B%BE%E7%89%8711.png" alt="rar头部参考图"></p><p>注：</p><ul><li><code>52 61</code> 为HEAD_CRC，两个字节，每一块均从HEAD_CRC开始，所有的RAR都以 <code>52 61</code> 开头</li><li><code>72</code> 为块类型（HEAD_TYPE）占一个字节，所有文件都如此</li><li><code>21 1A</code> 为块标记（HEAD_FLAGS）占两个字节</li><li><code>07 00</code> 表示块的大小，即 <code>52 61 72 21 1A 07 00</code>（标记块）共占7个字节</li></ul><p>尾部（十六进制）：<code>C4 3D 7B 00 40 07 00</code></p><p>注：</p><ul><li><code>C4 3D</code>：HEAD_CRC，2字节，从HEAD_TYPE到HEAD_SIZE的crc校验值</li><li><code>7B</code>：HEAD_TYPE，1字节，表示该块是结尾块</li><li><code>00 40</code>：HEAD_FLAGS，2字节，位标记</li><li><code>07 00</code>：HEAD_SIZE，2字节，块大小</li></ul><h2 id="其他常见文件头"><a href="#其他常见文件头" class="headerlink" title="其他常见文件头"></a>其他常见文件头</h2><table><thead><tr><th>文件类型</th><th>文件头（十六进制）</th></tr></thead><tbody><tr><td>XLS</td><td>d0 cf 11 e0 a1 b1 1a e1</td></tr><tr><td>PPT</td><td>d0 cf 11 e0 a1 b1 1a e1</td></tr><tr><td>WAV</td><td>52 49 46 46</td></tr><tr><td>PPTX</td><td>50 4b 03 04 14 00 06 00</td></tr><tr><td>DOCX</td><td>50 4b 03 04 14 00 06 00</td></tr><tr><td>JAR</td><td>4a 41 52 43 53 00 &#x2F; 50 4b 03 04</td></tr><tr><td>MP3</td><td>49 44 33</td></tr><tr><td>7z</td><td>37 7A BC AF 27 1C</td></tr><tr><td>7z尾</td><td>00 00 00 00 17 06</td></tr><tr><td>PCAP</td><td>D4 3C B2 A1</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> Misc </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>zip和rar的伪加密</title>
+      <link href="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/"/>
+      <url>/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/</url>
+      
+        <content type="html"><![CDATA[<h1 id="压缩包伪加密"><a href="#压缩包伪加密" class="headerlink" title="压缩包伪加密"></a>压缩包伪加密</h1><h2 id="Zip-伪加密"><a href="#Zip-伪加密" class="headerlink" title="Zip 伪加密"></a>Zip 伪加密</h2><p>压缩源文件数据区：50 4B 03 04 xx xx 全局方位标记<br>压缩源文件目录区：50 4B 01 02 xx xx xx xx 全局方位标记  </p><p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/zip.png" alt="参考图片"></p><h2 id="Rar-伪加密"><a href="#Rar-伪加密" class="headerlink" title="Rar 伪加密"></a>Rar 伪加密</h2><p>一般用 win 打开时会显示文件头已损坏<br>RAR 的第 24 个字节。该字节尾数为 4 表示加密，0 表示无加密<br>或 010 Editor 显示的文件结构中的 <code>ubyte PASSWORD_ENCRYPTED</code> 字段，修改其字段为 1 即可实现 RAR 伪加密。  </p><p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar1.png" alt="参考图片"></p><p>或者修改第 11 个字节，尾数为 4 表示加密，0 表示无加密<br>也就是 010 Editor 显示的文件结构中的 <code>ubyte BLOCK_HEADERS_ENCRYPTED</code> 字段的值。修改为 1 即可造成 RAR 伪加密。  </p><p><img src="/2024/07/14/zip%E5%92%8Crar%E7%9A%84%E4%BC%AA%E5%8A%A0%E5%AF%86/rar2.png" alt="参考图片"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Misc </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
